@@ -1,4 +1,5 @@
 PODS:
+  - AdChainSDK (1.0.33)
   - boost (1.84.0)
   - DoubleConversion (1.1.6)
   - fast_float (6.1.4)
@@ -1658,6 +1659,7 @@ PODS:
   - Yoga (0.0.0)
 
 DEPENDENCIES:
+  - AdChainSDK (from `https://github.com/1selfworld-labs/adchain-sdk-ios-release.git`, tag `v1.0.33`)
   - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - fast_float (from `../node_modules/react-native/third-party-podspecs/fast_float.podspec`)
@@ -1736,6 +1738,9 @@ SPEC REPOS:
     - SocketRocket
 
 EXTERNAL SOURCES:
+  AdChainSDK:
+    :git: https://github.com/1selfworld-labs/adchain-sdk-ios-release.git
+    :tag: v1.0.33
   boost:
     :podspec: "../node_modules/react-native/third-party-podspecs/boost.podspec"
   DoubleConversion:
@@ -1878,7 +1883,13 @@ EXTERNAL SOURCES:
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
+CHECKOUT OPTIONS:
+  AdChainSDK:
+    :git: https://github.com/1selfworld-labs/adchain-sdk-ios-release.git
+    :tag: v1.0.33
+
 SPEC CHECKSUMS:
+  AdChainSDK: f6fea60cece15e7dae8e2b2e0f5451abdbd5ab7b
   boost: 7e761d76ca2ce687f7cc98e698152abd03a18f90
   DoubleConversion: cb417026b2400c8f53ae97020b2be961b59470cb
   fast_float: 06eeec4fe712a76acc9376682e4808b05ce978b6
@@ -1951,6 +1962,6 @@ SPEC CHECKSUMS:
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   Yoga: c758bfb934100bb4bf9cbaccb52557cee35e8bdf
 
-PODFILE CHECKSUM: 3b1c024791459696590edac9aa6a387baada01a6
+PODFILE CHECKSUM: e24b189707558d2aa2922313c4f0951e2805c6c8
 
 COCOAPODS: 1.16.2

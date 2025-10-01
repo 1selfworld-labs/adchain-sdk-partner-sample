@@ -11,6 +11,8 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		B62620182E8CCB3800CFBB31 /* AdchainSdk.m in Sources */ = {isa = PBXBuildFile; fileRef = B62620162E8CCB3800CFBB31 /* AdchainSdk.m */; };
+		B62620192E8CCB3800CFBB31 /* AdchainSdk.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62620172E8CCB3800CFBB31 /* AdchainSdk.swift */; };
 		C93A3F81010C9BDD864DA74B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
@@ -24,6 +26,9 @@
 		5DCACB8F33CDC322A6C60F78 /* libPods-AdchainSdkPartnerSample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AdchainSdkPartnerSample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = AdchainSdkPartnerSample/AppDelegate.swift; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = AdchainSdkPartnerSample/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		B62620162E8CCB3800CFBB31 /* AdchainSdk.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AdchainSdk.m; sourceTree = "<group>"; };
+		B62620172E8CCB3800CFBB31 /* AdchainSdk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdchainSdk.swift; sourceTree = "<group>"; };
+		B626201A2E8CCB4E00CFBB31 /* AdchainSdkPartnerSample-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AdchainSdkPartnerSample-Bridging-Header.h"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -70,11 +75,14 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				B62620162E8CCB3800CFBB31 /* AdchainSdk.m */,
+				B62620172E8CCB3800CFBB31 /* AdchainSdk.swift */,
 				13B07FAE1A68108700A75B9A /* AdchainSdkPartnerSample */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				B626201A2E8CCB4E00CFBB31 /* AdchainSdkPartnerSample-Bridging-Header.h */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -131,7 +139,7 @@
 				LastUpgradeCheck = 1210;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1640;
 					};
 				};
 			};
@@ -246,6 +254,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B62620182E8CCB3800CFBB31 /* AdchainSdk.m in Sources */,
+				B62620192E8CCB3800CFBB31 /* AdchainSdk.swift in Sources */,
 				761780ED2CA45674006654EE /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -275,6 +285,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = AdchainSdkPartnerSample;
+				SWIFT_OBJC_BRIDGING_HEADER = "AdchainSdkPartnerSample-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -302,6 +313,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = AdchainSdkPartnerSample;
+				SWIFT_OBJC_BRIDGING_HEADER = "AdchainSdkPartnerSample-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
