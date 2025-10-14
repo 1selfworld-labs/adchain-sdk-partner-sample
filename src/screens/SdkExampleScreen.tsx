@@ -383,6 +383,22 @@ const SdkExampleScreen = () => {
     }
   };
 
+  const testOpenAdjoe = async () => {
+    try {
+      addLog('Attempting to open Adjoe Offerwall');
+      const result = await AdchainSdk.openAdjoeOfferwall('main_adjoe_test');
+      addLog(`Adjoe Offerwall result: ${JSON.stringify(result)}`);
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      addLog(`Adjoe Offerwall error: ${errorMessage}`);
+      Alert.alert(
+        'Adjoe Offerwall Error',
+        errorMessage,
+        [{ text: 'OK' }]
+      );
+    }
+  };
+
   return (
     <View style={styles.container}>
       {/* 에러 배너 */}
@@ -663,6 +679,15 @@ const SdkExampleScreen = () => {
               <Text style={styles.eventText}>✅ onMissionCompleted</Text>
               <Text style={styles.eventText}>✅ onMissionProgressed</Text>
               <Text style={styles.eventText}>✅ onMissionRefreshed</Text>
+            </View>
+          </View>
+
+          <View style={styles.apiGroup}>
+            <Text style={styles.groupTitle}>8️⃣ Adjoe API</Text>
+            <View style={styles.buttonRow}>
+              <TouchableOpacity style={styles.apiButton} onPress={testOpenAdjoe}>
+                <Text style={styles.buttonText}>openAdjoe</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>

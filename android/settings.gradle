@@ -4,3 +4,6 @@ extensions.configure(com.facebook.react.ReactSettingsExtension){ ex -> ex.autoli
 rootProject.name = 'AdchainSdkPartnerSample'
 include ':app'
 includeBuild('../node_modules/@react-native/gradle-plugin')
+// AdChain SDK 로컬 모듈 추가
+include ':adchain-sdk'
+project(':adchain-sdk').projectDir = new File(rootProject.projectDir, '../../adchain-sdk-android/adchain-sdk')
