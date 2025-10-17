@@ -2,6 +2,7 @@ import React, {useState, useRef} from 'react';
 import {
   StyleSheet,
   SafeAreaView,
+  Alert,
 } from 'react-native';
 import {WebView, WebViewMessageEvent} from 'react-native-webview';
 import {getCurrentWebViewUrl} from './webview.config';
@@ -10,156 +11,77 @@ interface WebViewComponentProps {
   initialUrl?: string;
 }
 
-interface WebViewDimensions {
-  width: number;
-  height: number;
-  contentWidth: number;
-  contentHeight: number;
-}
+// Removed unused WebViewDimensions interface
 
 const WebViewComponent = ({
   initialUrl = getCurrentWebViewUrl(),
 }: WebViewComponentProps) => {
   const [currentUrl, setCurrentUrl] = useState(initialUrl);
-  const [loading, setLoading] = useState(false);
-  const [canGoBack, setCanGoBack] = useState(false);
-  const [canGoForward, setCanGoForward] = useState(false);
-  const [dimensions, setDimensions] = useState<WebViewDimensions | null>(null);
   const webViewRef = useRef<WebView>(null);
-
-  const handleLoadStart = () => {
-    setLoading(true);
-  };
-
-  const handleLoadEnd = () => {
-    setLoading(false);
-    // 페이지 로드 완료 시 크기 측정
-    measureWebViewSize();
-  };
 
   const handleNavigationStateChange = (navState: any) => {
     setCurrentUrl(navState.url);
-    setCanGoBack(navState.canGoBack);
-    setCanGoForward(navState.canGoForward);
-  };
-
-  // WebView 크기 측정 함수
-  const measureWebViewSize = () => {
-    const script = `
-      (function() {
-        const dimensions = {
-          width: window.innerWidth,
-          height: window.innerHeight,
-          contentWidth: document.documentElement.scrollWidth,
-          contentHeight: document.documentElement.scrollHeight,
-          scrollX: window.scrollX || window.pageXOffset,
-          scrollY: window.scrollY || window.pageYOffset
-        };
-        window.ReactNativeWebView.postMessage(JSON.stringify({
-          type: 'dimensions',
-          data: dimensions
-        }));
-      })();
-      true;
-    `;
-    webViewRef.current?.injectJavaScript(script);
   };
 
   // WebView에서 React Native로 메시지 수신
   const handleMessage = (event: WebViewMessageEvent) => {
     try {
       const message = JSON.parse(event.nativeEvent.data);
-      console.log('📩 WebView Message:', message);
-
       switch (message.type) {
-        case 'dimensions':
-          setDimensions(message.data);
-          break;
         case 'scroll':
           console.log('📜 Scroll Position:', message.data);
           break;
         case 'click':
           console.log('👆 Element Clicked:', message.data);
           break;
+        case 'trackEvent': {
+          const eventName = message?.data?.eventName;
+          console.log('📩 Track Event:', eventName);
+
+          if (eventName === 'membership_point_clicked') {
+            Alert.alert(
+              '웹뷰 테스트',
+              '안녕하세요',
+              [{text: '확인'}],
+              {cancelable: true},
+            );
+          }
+          break;
+        }
+        case 'adchain_event': {
+          const {event: eventName, payload} = message;
+          if (eventName === 'membership_point_clicked' && payload?.modalType === 'SIMPLE_INFO') {
+            Alert.alert(
+              '포인트 안내',
+              '멤버십 포인트 정보를 확인하세요.',
+              [{text: '확인'}],
+              {cancelable: true},
+            );
+
+            // 웹으로 postmessage 보내기 (웹의 window.addEventListener('message')에서 받을 수 있도록)
+            const script = `
+              window.postMessage('success_webview_message', '*');
+              true;
+            `;
+            webViewRef.current?.injectJavaScript(script);
+          }
+          break;
+        }
         default:
           console.log('📨 Custom Message:', message);
       }
     } catch (error) {
       console.error('Error parsing WebView message:', error);
+      Alert.alert(
+        '웹뷰 메세지',
+        '오류가 발생했습니다. 다시 시도해주세요.',
+        [{text: '확인'}],
+        {cancelable: true},
+      );
     }
   };
 
-  // React Native에서 WebView로 JavaScript 실행
-  // const executeJavaScript = (script: string) => {
-  //   webViewRef.current?.injectJavaScript(script);
-  // };
 
-  // // 예제: 특정 위치로 스크롤
-  // const scrollToPosition = (x: number, y: number) => {
-  //   const script = `
-  //     window.scrollTo(${x}, ${y});
-  //     setTimeout(() => {
-  //       window.ReactNativeWebView.postMessage(JSON.stringify({
-  //         type: 'scroll',
-  //         data: { x: window.scrollX, y: window.scrollY }
-  //       }));
-  //     }, 100);
-  //     true;
-  //   `;
-  //   executeJavaScript(script);
-  // };
-
-  // // 예제: 웹페이지의 특정 데이터 가져오기
-  // const getPageData = () => {
-  //   const script = `
-  //     (function() {
-  //       const data = {
-  //         title: document.title,
-  //         url: window.location.href,
-  //         links: Array.from(document.querySelectorAll('a')).length,
-  //         images: Array.from(document.querySelectorAll('img')).length,
-  //         bodyText: document.body.innerText.substring(0, 100)
-  //       };
-  //       window.ReactNativeWebView.postMessage(JSON.stringify({
-  //         type: 'pageData',
-  //         data: data
-  //       }));
-  //     })();
-  //     true;
-  //   `;
-  //   executeJavaScript(script);
-  // };
-
-  // const handleGoBack = () => {
-  //   if (webViewRef.current && canGoBack) {
-  //     webViewRef.current.goBack();
-  //   }
-  // };
-
-  // const handleGoForward = () => {
-  //   if (webViewRef.current && canGoForward) {
-  //     webViewRef.current.goForward();
-  //   }
-  // };
-
-  // const handleReload = () => {
-  //   if (webViewRef.current) {
-  //     webViewRef.current.reload();
-  //   }
-  // };
-
-  // const handleNavigate = () => {
-  //   if (url.trim()) {
-  //     let formattedUrl = url.trim();
-  //     if (
-  //       !formattedUrl.startsWith('http://') &&
-  //       !formattedUrl.startsWith('https://')
-  //     ) {
-  //       formattedUrl = 'https://' + formattedUrl;
-  //     }
-  //     setCurrentUrl(formattedUrl);
-  //   }
-  // };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -168,8 +90,8 @@ const WebViewComponent = ({
         ref={webViewRef}
         source={{uri: currentUrl}}
         style={styles.webView}
-        onLoadStart={handleLoadStart}
-        onLoadEnd={handleLoadEnd}
+        onLoadStart={() => {}}
+        onLoadEnd={() => {}}
         onNavigationStateChange={handleNavigationStateChange}
         onMessage={handleMessage}
         javaScriptEnabled={true}
@@ -181,6 +103,36 @@ const WebViewComponent = ({
         bounces={true}
         // JavaScript를 페이지 로드 전에 주입
         injectedJavaScriptBeforeContentLoaded={`
+          // adChain 브리지 정의: SDK 이벤트를 RN으로 전달
+          (function() {
+            try {
+              var safePost = function(payload) {
+                try {
+                  window.ReactNativeWebView && window.ReactNativeWebView.postMessage(JSON.stringify(payload));
+                } catch (e) { /* noop */ }
+              };
+              
+              // iOS WKWebView 호환 레이어: window.webkit.messageHandlers.postMessage -> RN postMessage 매핑
+              try {
+                if (!window.webkit) { window.webkit = {}; }
+                if (!window.webkit.messageHandlers) { window.webkit.messageHandlers = {}; }
+                if (typeof window.webkit.messageHandlers.postMessage !== 'function') {
+                  window.webkit.messageHandlers.postMessage = function(message) {
+                    try { window.ReactNativeWebView && window.ReactNativeWebView.postMessage(JSON.stringify(message)); } catch (e) { /* noop */ }
+                  };
+                }
+              } catch (_) { /* noop */ }
+
+              if (!window.adChain) { window.adChain = {}; }
+              window.adChain.callTrackEvent = function(name, payload) {
+                // 웹 코드가 기대하는 표준 타입 'trackEvent' 메시지로도 발송
+                safePost({ type: 'trackEvent', data: { eventName: name, payload: payload || {} } });
+                // 하위 호환: 기존 adchain_event 타입도 함께 발송
+                safePost({ type: 'adchain_event', event: name, payload: payload || {} });
+              };
+            } catch (e) { /* noop */ }
+          })();
+
           // 스크롤 이벤트 리스너 추가
           window.addEventListener('scroll', function() {
             window.ReactNativeWebView.postMessage(JSON.stringify({

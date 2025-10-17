@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TouchableOpacity, Text, Alert, StyleSheet } from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
 import ListScreen from '../screens/ListScreen';
@@ -54,6 +54,7 @@ const MyPageIcon = ({color}: {color: string}) => (
 );
 
 const TabNavigator = () => {
+  const [benefitKey, setBenefitKey] = useState(0);
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -92,13 +93,17 @@ const TabNavigator = () => {
       />
       <Tab.Screen
         name="Benefit"
-        component={BenefitScreen}
         options={{
           title: '혜택',
           headerShown: false,
           tabBarIcon: BenefitIcon,
         }}
-      />
+        listeners={{
+          tabPress: () => setBenefitKey((k) => k + 1),
+        }}
+      >
+        {() => <BenefitScreen key={benefitKey} />}
+      </Tab.Screen>
       <Tab.Screen
         name="MyPage"
         component={MyPageScreen}

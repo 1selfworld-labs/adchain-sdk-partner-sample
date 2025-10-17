@@ -41,6 +41,34 @@
           <key>NSExceptionAllowsInsecureHTTPLoads</key><true/>
           <key>NSRequiresCertificateTransparency</key><false/>
         </dict>
+		
+        <key>1self.world</key>
+        <dict>
+          <key>NSIncludesSubdomains</key><true/>
+          <key>NSExceptionAllowsInsecureHTTPLoads</key><false/>
+          <key>NSRequiresCertificateTransparency</key><false/>
+        </dict>
+
+		<key>adchain-offerwall.1self.world</key>
+        <dict>
+          <key>NSIncludesSubdomains</key><true/>
+          <key>NSExceptionAllowsInsecureHTTPLoads</key><false/>
+          <key>NSRequiresCertificateTransparency</key><false/>
+        </dict>
+
+		<key>adchain-offerwall-event.1self.world</key>
+        <dict>
+          <key>NSIncludesSubdomains</key><true/>
+          <key>NSExceptionAllowsInsecureHTTPLoads</key><false/>
+          <key>NSRequiresCertificateTransparency</key><false/>
+        </dict>
+
+		<key>adchain-offerwall-adjoe.1self.world</key>
+        <dict>
+          <key>NSIncludesSubdomains</key><true/>
+          <key>NSExceptionAllowsInsecureHTTPLoads</key><false/>
+          <key>NSRequiresCertificateTransparency</key><false/>
+        </dict>
       </dict>
     
 		<key>NSAllowsLocalNetworking</key>
