@@ -1,7 +1,5 @@
 import React from 'react';
 import {View, StyleSheet, StatusBar, Platform} from 'react-native';
-import WebViewComponent from '../components/webview/index';
-import {getCurrentWebViewUrl} from '../components/webview/webview.config';
 
 const WebviewScreen = () => {
   return (
@@ -11,9 +9,7 @@ const WebviewScreen = () => {
         backgroundColor="#fff"
         translucent={false}
       />
-      <View style={styles.webviewContainer}>
-        <WebViewComponent initialUrl={getCurrentWebViewUrl()} />
-      </View>
+      <View style={styles.webviewContainer} />
     </View>
   );
 };

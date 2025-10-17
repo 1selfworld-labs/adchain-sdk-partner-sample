@@ -8,6 +8,8 @@ import MyPageScreen from '../screens/MyPageScreen';
 import SdkExampleScreen from '../screens/SdkExampleScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import AdchainSdk from '../services/AdchainSdk';
+import { WEBVIEW_CONFIG } from '../components/webview/webview.config';
 
 export type TabParamList = {
   Home: undefined;
@@ -99,7 +101,10 @@ const TabNavigator = () => {
           tabBarIcon: BenefitIcon,
         }}
         listeners={{
-          tabPress: () => setBenefitKey((k) => k + 1),
+          tabPress: () => {
+            setBenefitKey((k) => k + 1);
+            AdchainSdk.openOfferwallWithUrl(WEBVIEW_CONFIG.DEFAULT_URL, 'main_adjoe_test');
+          },
         }}
       >
         {() => <BenefitScreen key={benefitKey} />}
