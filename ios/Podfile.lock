@@ -1,5 +1,5 @@
 PODS:
-  - AdChainSDK (1.0.35)
+  - AdChainSDK (1.0.38)
   - boost (1.84.0)
   - DoubleConversion (1.1.6)
   - fast_float (6.1.4)
@@ -1681,7 +1681,7 @@ PODS:
     - React-logger (= 0.79.2)
     - React-perflogger (= 0.79.2)
     - React-utils (= 0.79.2)
-  - RNScreens (4.16.0):
+  - RNScreens (4.17.1):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1710,7 +1710,7 @@ PODS:
   - Yoga (0.0.0)
 
 DEPENDENCIES:
-  - AdChainSDK (from `https://github.com/1selfworld-labs/adchain-sdk-ios-release.git`, tag `v1.0.35`)
+  - AdChainSDK (from `https://github.com/1selfworld-labs/adchain-sdk-ios-release.git`, tag `v1.0.38`)
   - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - fast_float (from `../node_modules/react-native/third-party-podspecs/fast_float.podspec`)
@@ -1794,7 +1794,7 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   AdChainSDK:
     :git: https://github.com/1selfworld-labs/adchain-sdk-ios-release.git
-    :tag: v1.0.35
+    :tag: v1.0.38
   boost:
     :podspec: "../node_modules/react-native/third-party-podspecs/boost.podspec"
   DoubleConversion:
@@ -1946,10 +1946,10 @@ EXTERNAL SOURCES:
 CHECKOUT OPTIONS:
   AdChainSDK:
     :git: https://github.com/1selfworld-labs/adchain-sdk-ios-release.git
-    :tag: v1.0.35
+    :tag: v1.0.38
 
 SPEC CHECKSUMS:
-  AdChainSDK: b3661b02bd0bba6e76c6ebeda3952fe4c91d6484
+  AdChainSDK: 8531d5ed71cfd295f6aae0a39a9b54a6db31834b
   boost: 7e761d76ca2ce687f7cc98e698152abd03a18f90
   DoubleConversion: cb417026b2400c8f53ae97020b2be961b59470cb
   fast_float: 06eeec4fe712a76acc9376682e4808b05ce978b6
@@ -2021,10 +2021,10 @@ SPEC CHECKSUMS:
   ReactAppDependencyProvider: 04d5eb15eb46be6720e17a4a7fa92940a776e584
   ReactCodegen: 041559ba76d00f6680dfa0916b3c791f4babe5ea
   ReactCommon: 1511ef100f1afa4c199fe52fe7a8d2529a41429a
-  RNScreens: 7612f84ae9e88debc5e05ef55f027abc99c013a5
+  RNScreens: 2deb382dfe817f3982c1e43954ffa81a184ee0a2
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   Yoga: 50518ade05048235d91a78b803336dbb5b159d5d
 
-PODFILE CHECKSUM: 66032527624384bd96278a753d0564e7ad12f9f3
+PODFILE CHECKSUM: 3cf6613d8528f8dc80b2393ab4469d6fb9770250
 
 COCOAPODS: 1.16.2
