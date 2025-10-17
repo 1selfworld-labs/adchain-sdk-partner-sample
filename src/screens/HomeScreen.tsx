@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -8,10 +8,13 @@ import {
   StatusBar,
   TextInput,
   Dimensions,
+  Alert,
+  Platform,
 } from 'react-native';
 import { CompositeNavigationProp } from '@react-navigation/native';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import AdchainSdk from '../services/AdchainSdk';
 
 type TabParamList = {
   Home: undefined;
@@ -41,6 +44,75 @@ const CARD_GAP = 12; // 카드 사이 간격
 const CARD_WIDTH = (width - (CARD_PADDING * 2) - CARD_GAP) / 2;
 
 const HomeScreen = ({navigation}: HomeScreenProps) => {
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+
+  // 임시 사용자 정보로 빠른 로그인
+  const handleQuickLogin = async () => {
+    if (isLoggingIn) {return;}
+
+    setIsLoggingIn(true);
+
+    try {
+      // SDK 초기화 (필요한 경우)
+      const isInitialized = await AdchainSdk.isInitialized();
+      if (!isInitialized) {
+        const sdkConfig = Platform.select({
+          android: {
+            appKey: '100000001',
+            appSecret: 'gjFs586lLuUweJRN',
+            environment: 'PRODUCTION' as const,
+          },
+          ios: {
+            appKey: '100000002',
+            appSecret: '3ANgfF9Zfbm79oa6',
+            environment: 'PRODUCTION' as const,
+          },
+          default: {
+            appKey: 'test-app',
+            appSecret: 'test-secret',
+            environment: 'DEVELOPMENT' as const,
+          },
+        });
+
+        await AdchainSdk.initialize(sdkConfig);
+        await new Promise(resolve => setTimeout(resolve, 1000)); // 1초 대기
+      }
+
+      // 임시 사용자 정보로 로그인
+      const tempUser = {
+        userId: `temp_user_${Date.now()}`,
+        gender: 'MALE' as const,
+        birthYear: 1990,
+      };
+
+      await AdchainSdk.login(tempUser);
+
+      Alert.alert(
+        '로그인 성공! 🎉',
+        `임시 사용자로 로그인되었습니다.\nUser ID: ${tempUser.userId}`,
+        [
+          {
+            text: 'SDK 테스트하기',
+            onPress: () => navigation.navigate('SdkExample'),
+          },
+          {
+            text: '확인',
+            style: 'cancel',
+          },
+        ]
+      );
+    } catch (error) {
+      console.error('Quick login error:', error);
+      Alert.alert(
+        '로그인 실패',
+        `오류가 발생했습니다: ${error}`,
+        [{ text: '확인' }]
+      );
+    } finally {
+      setIsLoggingIn(false);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar
@@ -67,6 +139,7 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.promotionsContainer}>
+
             <TouchableOpacity
               style={[styles.promotionCard, styles.promotionCardPrimary]}
               onPress={() => navigation.navigate('SdkExample')}>
@@ -76,9 +149,6 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
                 <Text style={styles.promotionDescription}>
                   모든 SDK 기능을{'\n'}테스트하세요
                 </Text>
-                <View style={styles.promotionButton}>
-                  <Text style={styles.promotionButtonText}>시작하기 →</Text>
-                </View>
               </View>
             </TouchableOpacity>
 
@@ -117,11 +187,21 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
               <Text style={styles.categoryTitle}>SDK 기능</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.categoryCard}>
+            <TouchableOpacity
+              style={[
+                styles.categoryCard,
+                isLoggingIn && styles.categoryCardDisabled,
+              ]}
+              onPress={handleQuickLogin}
+              disabled={isLoggingIn}>
               <View style={[styles.categoryImage, styles.categoryBgOrange]}>
-                <Text style={styles.categoryEmoji}>❓</Text>
+                <Text style={styles.categoryEmoji}>
+                  {isLoggingIn ? '⏳' : '🔐'}
+                </Text>
               </View>
-              <Text style={styles.categoryTitle}>Quiz</Text>
+              <Text style={styles.categoryTitle}>
+                {isLoggingIn ? '로그인 중...' : 'Adchain 로그인'}
+              </Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.categoryCard}>
@@ -304,6 +384,9 @@ const styles = StyleSheet.create({
   },
   categoryBgYellow: {
     backgroundColor: '#FFF9C4',
+  },
+  categoryCardDisabled: {
+    opacity: 0.6,
   },
   bottomSpacing: {
     height: 20,

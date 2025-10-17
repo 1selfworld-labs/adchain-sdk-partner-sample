@@ -9,6 +9,59 @@
 - **최소 지원 iOS 버전**: 14.0
 - **아키텍처**: Legacy Architecture (New Architecture 비활성화)
 
+## 🚀 AdChain SDK 퀵 설정 가이드
+
+### 1️⃣ 원클릭 로그인 (HomeScreen)
+
+**홈 화면**에서 **"Adchain 로그인"** 버튼을 클릭하면 자동으로 AdChain SDK가 설정됩니다:
+
+- 🔐 **위치**: 홈 화면 > Featured Categories > Adchain 로그인
+- ⚡ **자동 처리**: SDK 초기화 → 임시 사용자 생성 → 로그인 완료
+- 🎯 **임시 사용자**: `temp_user_${timestamp}` 형식으로 자동 생성
+- 📱 **플랫폼 설정**: Android/iOS 각각의 설정 자동 적용
+
+### 2️⃣ 웹뷰 화면 확인 (혜택 탭)
+
+**혜택 탭**을 클릭하면 AdChain의 웹뷰 화면을 바로 확인할 수 있습니다:
+
+- 🎁 **위치**: 하단 네비게이션 > 혜택 탭
+- 🌐 **기능**: AdChain 오퍼월 웹페이지 표시
+- 🔄 **통신**: 웹 ↔ React Native 실시간 메시지 처리
+- 📊 **이벤트**: 스크롤, 클릭, 커스텀 이벤트 추적
+
+### 3️⃣ 웹뷰 설정 수정
+
+`src/components/webview/webview.config.ts` 파일에서 다음 요소들을 수정할 수 있습니다:
+
+#### 🔧 개발 환경 URL 변경
+
+```typescript
+// 현재 설정 (예시)
+DEFAULT_URL: 'http://192.168.0.29:18000/?user_id=ac_PrdDDYvb2YOTU0hHkBa0ZQ&platform=IOS&app_key=123456781&ifa=32e197b8-56a2-49e2-8207-c573425c1b3b&sdk_version=1.0.35';
+
+// 수정 방법: 본인의 IP 주소와 정보로 변경
+DEFAULT_URL: 'http://YOUR_IP:PORT/?user_id=YOUR_USER_ID&platform=IOS&app_key=YOUR_APP_KEY&ifa=YOUR_IFA&sdk_version=1.0.35';
+```
+
+#### 📱 주요 파라미터 설정
+
+```typescript
+// 필수 파라미터들
+user_id: 'ac_PrdDDYvb2YOTU0hHkBa0ZQ'; // 사용자 ID
+app_key: '123456781'; // 앱 키
+platform: 'IOS'; // 플랫폼 (IOS/ANDROID)
+ifa: '32e197b8-56a2-49e2-8207-c573425c1b3b'; // 광고 ID
+sdk_version: '1.0.35'; // SDK 버전
+```
+
+### 4️⃣ SDK 기능 테스트
+
+로그인 후 **"SDK 테스트하기"** 버튼으로 모든 SDK 기능을 테스트할 수 있습니다:
+
+- 📱 **상태 확인**: 초기화, 로그인 상태 모니터링
+- 🧪 **API 테스트**: Quiz, Mission, Banner, Offerwall 기능
+- 📋 **실시간 로그**: 모든 API 호출과 이벤트 로그 확인
+
 ## 📁 프로젝트 구조
 
 ```
@@ -410,6 +463,67 @@ await AdchainSdk.openOfferwallWithUrl('https://example.com', 'placement-id');
 ```
 
 더 자세한 사용 예제는 **`src/screens/SdkExampleScreen.tsx`** 파일을 참조하세요.
+
+## 🌐 웹뷰 설정 상세 가이드
+
+### 웹뷰 설정 파일 구조
+
+`src/components/webview/webview.config.ts` 파일의 주요 구성 요소:
+
+```typescript
+export const WEBVIEW_CONFIG = {
+  // 개발 환경 URL (로컬 서버)
+  DEFAULT_URL:
+    'http://192.168.0.29:18000/?user_id=ac_PrdDDYvb2YOTU0hHkBa0ZQ&platform=IOS&app_key=123456781&ifa=32e197b8-56a2-49e2-8207-c573425c1b3b&sdk_version=1.0.35',
+
+  // 프로덕션 환경 URL
+  PRODUCTION_URL:
+    'https://adchain-offerwall.1self.world?user_id=test123456&app_key=123456781&platform=ios&ifa=00000000-0000-0000-0000-000000000000&sdk_version=1.0.15&device_id=1234567890&device_model=iPhone16&device_manufacturer=Apple&session_id=1234567890&os_version=1.0.15&screen_width=1080&screen_height=1920&timestamp=1727731200',
+};
+```
+
+### 필수 수정 요소
+
+#### 1. 개발 서버 IP 주소 변경
+
+```typescript
+// 현재 설정 (예시)
+DEFAULT_URL: 'http://192.168.0.29:18000/?user_id=ac_PrdDDYvb2YOTU0hHkBa0ZQ&platform=IOS&app_key=123456781&ifa=32e197b8-56a2-49e2-8207-c573425c1b3b&sdk_version=1.0.35';
+
+// 수정 방법: 본인의 IP 주소로 변경
+DEFAULT_URL: 'http://YOUR_IP_ADDRESS:18000/?user_id=YOUR_USER_ID&platform=IOS&app_key=YOUR_APP_KEY&ifa=YOUR_IFA&sdk_version=1.0.35';
+```
+
+#### 2. 프로덕션 환경 설정
+
+```typescript
+// 프로덕션 URL (실제 배포 시 사용)
+PRODUCTION_URL: 'https://adchain-offerwall.1self.world?user_id=test123456&app_key=123456781&platform=ios&ifa=00000000-0000-0000-0000-000000000000&sdk_version=1.0.15&device_id=1234567890&device_model=iPhone16&device_manufacturer=Apple&session_id=1234567890&os_version=1.0.15&screen_width=1080&screen_height=1920&timestamp=1727731200';
+```
+
+### 환경별 URL 자동 전환
+
+```typescript
+// 현재 사용할 URL 선택 함수
+export const getCurrentWebViewUrl = () => {
+  // 개발 모드에서 자동으로 DEFAULT_URL 사용
+  if (__DEV__) {
+    return WEBVIEW_CONFIG.DEFAULT_URL;
+  }
+
+  // 프로덕션 모드에서 자동으로 PRODUCTION_URL 사용
+  return WEBVIEW_CONFIG.PRODUCTION_URL;
+};
+```
+
+### 웹뷰 이벤트 처리
+
+웹뷰에서 React Native로 전송되는 이벤트들:
+
+- **스크롤 이벤트**: 사용자 스크롤 위치 추적
+- **클릭 이벤트**: 웹 요소 클릭 감지
+- **커스텀 이벤트**: `adchain_event` 타입 이벤트 처리
+- **포인트 이벤트**: `membership_point_clicked` 시 네이티브 알림 표시
 
 # Learn More
 
