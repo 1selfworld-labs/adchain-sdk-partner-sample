@@ -11,10 +11,13 @@
 
 - [🎯 프로젝트 개요](#-프로젝트-개요)
 - [🚀 빠른 시작](#-빠른-시작)
+- [🎓 시작하기 전에](#-시작하기-전에)
+  - [필수 준비사항](#필수-준비사항)
+  - [필수 개념 이해하기](#필수-개념-이해하기)
 - [📦 SDK 연동 가이드](#-sdk-연동-가이드)
   - [1단계: SDK 설치](#1단계-sdk-설치)
-  - [2단계: Android 설정](#2단계-android-설정)
-  - [3단계: iOS 설정](#3단계-ios-설정)
+  - [2단계: Android 네이티브 코드 설정](#2단계-android-네이티브-코드-설정)
+  - [3단계: iOS 네이티브 코드 설정](#3단계-ios-네이티브-코드-설정)
   - [4단계: React Native 연동](#4단계-react-native-연동)
 - [💻 SDK 사용법](#-sdk-사용법)
 - [🎨 네이티브 Offerwall](#-네이티브-offerwall)
@@ -70,27 +73,138 @@ npm run android  # 또는 npm run ios
 
 ---
 
+## 🎓 시작하기 전에
+
+### 필수 준비사항
+
+AdChain SDK를 연동하기 전에 다음 정보를 준비해야 합니다:
+
+#### 1. SDK 인증 정보 발급 받기
+
+AdChain 담당자에게 연락하여 다음 정보를 발급받으세요:
+
+| 항목 | 설명 | 예시 |
+|------|------|------|
+| **APP_KEY** (Android) | Android 앱용 고유 키 | `123456783` |
+| **APP_SECRET** (Android) | Android 앱용 시크릿 키 | `abcdefghigjk` |
+| **APP_KEY** (iOS) | iOS 앱용 고유 키 | `123456784` |
+| **APP_SECRET** (iOS) | iOS 앱용 시크릿 키 | `abcdefghigjk` |
+
+> 📧 **문의**: AdChain 담당자 이메일 또는 1Self World 파트너 포털
+
+#### 2. placementId란?
+
+**placementId**는 Offerwall이 표시되는 위치를 추적하기 위한 식별자입니다.
+
+**사용 예시**:
+```typescript
+<AdchainOfferwallView placementId="main_tab_offerwall" />
+<AdchainOfferwallView placementId="event_popup_offerwall" />
+<AdchainOfferwallView placementId="benefit_screen" />
+```
+
+**명명 규칙** (권장):
+- `main_tab_*`: 메인 탭에서 표시
+- `event_*`: 이벤트 화면에서 표시
+- `popup_*`: 팝업으로 표시
+- 소문자와 언더스코어(_) 사용 권장
+
+**용도**:
+- 분석 및 통계 수집
+- A/B 테스트
+- 위치별 성과 측정
+
+> 💡 **팁**: placementId는 자유롭게 정의할 수 있지만, 의미 있는 이름을 사용하여 나중에 분석 시 쉽게 구분할 수 있도록 하세요.
+
+### 필수 개념 이해하기
+
+#### React Native Bridge 파일
+
+이 샘플 앱은 **React Native Bridge**를 사용하여 네이티브 SDK와 연동합니다:
+
+| 파일명 | 플랫폼 | 역할 |
+|--------|--------|------|
+| `AdchainSdkModule.kt` | Android | SDK 메서드를 React Native에 노출 (로그인, Quiz, Mission 등) |
+| `AdchainSdkPackage.kt` | Android | 모듈을 React Native에 등록 |
+| `AdchainOfferwallViewManager.kt` | Android | 네이티브 Offerwall View 컴포넌트 |
+| `AdchainSdk.swift` | iOS | SDK 메서드를 React Native에 노출 |
+| `AdchainSdk.m` | iOS | Swift-Objective-C 브릿지 헤더 |
+| `AdchainOfferwallViewManager.swift` | iOS | 네이티브 Offerwall View 컴포넌트 |
+| `AdchainOfferwallViewManager.m` | iOS | Swift-Objective-C 브릿지 헤더 |
+
+이 파일들은 **그대로 복사**하여 사용하면 됩니다. 수정할 필요 없음!
+
+#### SDK 연동 흐름
+
+```mermaid
+graph LR
+    A[1. SDK 설치] --> B[2. 네이티브 파일 복사]
+    B --> C[3. SDK 초기화]
+    C --> D[4. 사용자 로그인]
+    D --> E[5. Offerwall 표시]
+```
+
+1. **SDK 설치**: Gradle/CocoaPods를 통한 SDK 라이브러리 추가
+2. **네이티브 파일 복사**: React Native Bridge 파일 복사 및 등록
+3. **SDK 초기화**: `AdchainSdk.initialize()` 호출 (앱 시작 시 1회)
+4. **사용자 로그인**: `AdchainSdk.login()` 호출 (사용자별 1회)
+5. **Offerwall 표시**: `<AdchainOfferwallView>` 컴포넌트 사용
+
+---
+
 ## 📦 SDK 연동 가이드
 
 ### 1단계: SDK 설치
 
 #### Android SDK 설치
 
-`android/app/build.gradle`에 의존성 추가:
+**파일**: `android/app/build.gradle` (⚠️ `android/build.gradle`이 아님!)
 
 ```gradle
 dependencies {
-    // AdChain SDK
+    // The version of react-native is set by the React Native Gradle Plugin
+    implementation("com.facebook.react:react-android")
+
+    // ... 기존 dependencies ...
+
+    // ===== AdChain SDK 추가 시작 =====
+
+    // AdChain SDK - 핵심 라이브러리
     implementation 'com.github.1selfworld-labs:adchain-sdk-android:v1.0.25'
 
-    // 필수 의존성
+    // Kotlin 관련 의존성
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.21"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3"
+
+    // Retrofit & Network (HTTP 통신)
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
     implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+    implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
+    implementation "com.squareup.moshi:moshi:1.15.0"
+    implementation "com.squareup.moshi:moshi-kotlin:1.15.0"
+    implementation "com.google.code.gson:gson:2.10.1"
     implementation "com.squareup.okhttp3:okhttp:4.12.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.12.0"
+
+    // AndroidX (Android 호환성)
     implementation 'androidx.core:core:1.10.1'
+    implementation 'androidx.core:core-ktx:1.10.1'
+
+    // Google Play Services (광고 ID 조회)
     implementation 'com.google.android.gms:play-services-ads-identifier:18.0.1'
+
+    // ===== AdChain SDK 추가 끝 =====
+}
+```
+
+💡 **추가 설정**: `android/build.gradle` (프로젝트 루트)에 Maven 저장소 추가 필요
+
+```gradle
+allprojects {
+    repositories {
+        // ... 기존 repositories ...
+        maven { url 'https://jitpack.io' }  // AdChain SDK용 저장소
+    }
 }
 ```
 
@@ -120,72 +234,162 @@ end
 cd ios && pod install && cd ..
 ```
 
-### 2단계: Android 설정
+### 2단계: Android 네이티브 코드 설정
 
 #### 필수 파일 복사
 
-샘플 프로젝트에서 다음 파일들을 복사:
+샘플 프로젝트에서 다음 파일들을 **그대로** 복사하여 귀사 프로젝트에 붙여넣기:
 
 ```bash
-android/app/src/main/java/com/adchainsdkpartnersample/
-├── AdchainSdkModule.kt              # SDK 기능 브릿지
-├── AdchainSdkPackage.kt             # 패키지 등록
-└── AdchainOfferwallViewManager.kt   # Offerwall 뷰 매니저
+# 복사할 파일 위치
+샘플/android/app/src/main/java/com/adchainsdkpartnersample/
+├── AdchainSdkModule.kt              # SDK 기능 브릿지 (로그인, Quiz, Mission 등)
+├── AdchainSdkPackage.kt             # 패키지 등록용
+└── AdchainOfferwallViewManager.kt   # Offerwall 네이티브 뷰 컴포넌트
+
+# 붙여넣을 위치 (귀사 프로젝트)
+android/app/src/main/java/com/yourcompany/yourapp/
+├── AdchainSdkModule.kt
+├── AdchainSdkPackage.kt
+└── AdchainOfferwallViewManager.kt
 ```
 
 #### 패키지명 변경
 
-복사한 파일들의 패키지명을 귀사 프로젝트에 맞게 수정:
+복사한 **3개 파일 모두**의 첫 번째 줄 패키지명을 변경:
 
 ```kotlin
-// 변경 전
+// ❌ 변경 전 (샘플 앱 패키지명)
 package com.adchainsdkpartnersample
 
-// 변경 후
+// ✅ 변경 후 (귀사 앱 패키지명으로 수정)
 package com.yourcompany.yourapp
 ```
 
+💡 **패키지명 확인 방법**: `android/app/src/main/AndroidManifest.xml`의 `package` 속성 참조
+
 #### MainApplication 수정
 
-`MainApplication.kt`에 패키지 등록:
+**파일**: `android/app/src/main/java/com/yourcompany/yourapp/MainApplication.kt`
 
+1. **import 추가** (파일 상단):
 ```kotlin
-import com.yourcompany.yourapp.AdchainSdkPackage
+import com.yourcompany.yourapp.AdchainSdkPackage  // 추가
+```
 
+2. **getPackages() 메서드 수정**:
+```kotlin
 class MainApplication : Application(), ReactApplication {
-  override fun getPackages(): List<ReactPackage> =
-    PackageList(this).packages.apply {
-      add(AdchainSdkPackage())  // 추가
+  override val reactNativeHost: ReactNativeHost =
+    object : DefaultReactNativeHost(this) {
+      override fun getPackages(): List<ReactPackage> =
+        PackageList(this).packages.apply {
+          // 이 한 줄을 추가
+          add(AdchainSdkPackage())
+        }
     }
 }
 ```
 
-### 3단계: iOS 설정
+⚠️ **주의**:
+- `add(AdchainSdkPackage())`는 **단 한 번만** 추가해야 합니다
+- 중복 추가 시 "tried to override" 에러 발생
+
+### 3단계: iOS 네이티브 코드 설정
 
 #### 필수 파일 복사
 
-샘플 프로젝트에서 다음 파일들을 복사:
+샘플 프로젝트에서 다음 파일들을 **그대로** 복사:
 
 ```bash
-ios/AdchainSdkPartnerSample/
-├── AdchainSdk.swift                      # SDK 기능 브릿지
-├── AdchainSdk.m                          # Objective-C 브릿지
-├── AdchainOfferwallViewManager.swift     # Offerwall 뷰 매니저
-└── AdchainOfferwallViewManager.m        # Objective-C 브릿지
+# 복사할 파일 위치
+샘플/ios/AdchainSdkPartnerSample/
+├── AdchainSdk.swift                      # SDK 기능 브릿지 (로그인, Quiz, Mission 등)
+├── AdchainSdk.m                          # Objective-C 브릿지 헤더
+├── AdchainOfferwallViewManager.swift     # Offerwall 네이티브 뷰 컴포넌트
+└── AdchainOfferwallViewManager.m        # Objective-C 브릿지 헤더
+
+# 붙여넣을 위치 (귀사 프로젝트)
+ios/YourAppName/
+├── AdchainSdk.swift
+├── AdchainSdk.m
+├── AdchainOfferwallViewManager.swift
+└── AdchainOfferwallViewManager.m
 ```
 
 #### Xcode에서 파일 추가
 
-1. Xcode로 프로젝트 열기: `ios/YourApp.xcworkspace`
-2. 프로젝트 네비게이터에서 프로젝트 폴더 우클릭 → "Add Files to..."
-3. 복사한 4개 파일 선택
-4. ✅ **"Copy items if needed"** 체크
-5. ✅ 메인 앱 타겟 선택
-6. "Add" 클릭
+1. **Xcode 실행**: `ios/YourApp.xcworkspace` 파일 더블클릭 (⚠️ `.xcodeproj`가 아님!)
+2. **파일 추가**:
+   - 좌측 프로젝트 네비게이터에서 프로젝트 폴더 (YourAppName) 우클릭
+   - "Add Files to 'YourAppName'..." 선택
+3. **설정 확인**:
+   - ✅ **"Copy items if needed"** 반드시 체크
+   - ✅ **"Create groups"** 선택
+   - ✅ 메인 앱 타겟 (YourAppName) 체크
+   - 복사한 4개 파일 모두 선택
+4. **"Add" 클릭**
 
 #### Bridging Header 설정
 
-파일 추가 시 "Create Bridging Header" 팝업이 나타나면 **"Create"** 클릭
+Swift와 Objective-C를 연결하는 Bridging Header가 필요합니다.
+
+##### 자동 생성 (권장)
+
+파일 추가 시 "Would you like to configure an Objective-C bridging header?" 팝업이 나타나면:
+- ✅ **"Create Bridging Header"** 클릭
+
+##### 수동 생성 (팝업이 나타나지 않은 경우)
+
+1. **Bridging Header 파일 생성**:
+   ```bash
+   # 프로젝트 루트에서 실행
+   touch ios/YourAppName/YourAppName-Bridging-Header.h
+   ```
+
+2. **Bridging Header 내용 작성**:
+   ```objective-c
+   //
+   //  Use this file to import your target's public headers that you would like to expose to Swift.
+   //
+
+   #import <React/RCTBridgeModule.h>
+   #import <React/RCTViewManager.h>
+   #import <React/RCTEventEmitter.h>
+   ```
+
+3. **Xcode에서 Bridging Header 경로 설정**:
+   - Xcode에서 프로젝트 선택 (좌측 최상단)
+   - TARGETS → YourAppName 선택
+   - "Build Settings" 탭
+   - "Swift Compiler - General" 섹션 찾기
+   - "Objective-C Bridging Header" 항목에 다음 입력:
+     ```
+     YourAppName/YourAppName-Bridging-Header.h
+     ```
+
+4. **Xcode 프로젝트에 파일 추가**:
+   - 프로젝트 네비게이터에서 프로젝트 폴더 우클릭
+   - "Add Files to 'YourAppName'..."
+   - 생성한 `YourAppName-Bridging-Header.h` 파일 선택
+   - ✅ "Copy items if needed" 체크
+   - "Add" 클릭
+
+#### 빌드 확인
+
+```bash
+cd ios
+pod install
+cd ..
+npx react-native run-ios
+```
+
+⚠️ **문제 해결**:
+- `Use of undeclared identifier 'AdchainSdk'` 에러 발생 시:
+  - Bridging Header 경로가 올바른지 확인
+  - Xcode에서 Product → Clean Build Folder 후 재빌드
+- Swift 파일이 Target Membership에 포함되어 있는지 확인:
+  - Swift 파일 선택 → 우측 패널 → Target Membership → 메인 타겟 체크
 
 ### 4단계: React Native 연동
 
@@ -194,39 +398,112 @@ ios/AdchainSdkPartnerSample/
 `src/App.tsx`에서 SDK 초기화:
 
 ```typescript
-import AdchainSdk from './src/services/AdchainSdk';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, Platform, SafeAreaView, Text } from 'react-native';
+import AdchainSdk from './services/AdchainSdk';
 
-const App = () => {
+// SDK 환경 설정
+const SDK_CONFIG = {
+  android: {
+    APP_KEY: 'YOUR_ANDROID_APP_KEY',    // AdChain 관리자에게 발급받은 Android Key
+    APP_SECRET: 'YOUR_ANDROID_SECRET',  // AdChain 관리자에게 발급받은 Android Secret
+  },
+  ios: {
+    APP_KEY: 'YOUR_IOS_APP_KEY',        // AdChain 관리자에게 발급받은 iOS Key
+    APP_SECRET: 'YOUR_IOS_SECRET',      // AdChain 관리자에게 발급받은 iOS Secret
+  },
+};
+
+function App(): React.JSX.Element {
+  const [sdkInitialized, setSdkInitialized] = useState(false);
+
   useEffect(() => {
-    initializeSDK();
+    // 앱 시작 후 약간의 지연을 두고 SDK 초기화
+    const initTimeout = setTimeout(() => {
+      initializeSDK();
+    }, 500);
+
+    return () => clearTimeout(initTimeout);
   }, []);
 
   const initializeSDK = async () => {
     try {
-      await AdchainSdk.initialize({
-        appKey: 'YOUR_APP_KEY',
-        appSecret: 'YOUR_APP_SECRET',
-        environment: 'PRODUCTION',
+      // 플랫폼별 SDK 설정
+      const sdkConfig = Platform.select({
+        android: {
+          appKey: SDK_CONFIG.android.APP_KEY,
+          appSecret: SDK_CONFIG.android.APP_SECRET,
+          environment: 'PRODUCTION' as const,
+        },
+        ios: {
+          appKey: SDK_CONFIG.ios.APP_KEY,
+          appSecret: SDK_CONFIG.ios.APP_SECRET,
+          environment: 'PRODUCTION' as const,
+        },
+        default: {
+          appKey: 'test-app',
+          appSecret: 'test-secret',
+          environment: 'DEVELOPMENT' as const,
+        },
       });
 
-      // 자동 로그인
-      await AdchainSdk.login({
-        userId: 'user123',
-        gender: 'MALE',
-        birthYear: 1990,
-      });
+      // SDK 초기화 (로그인은 별도로 사용자가 원하는 시점에 수행)
+      await AdchainSdk.initialize(sdkConfig);
+      console.log(`AdchainSDK initialized for ${Platform.OS}`);
 
-      console.log('SDK 초기화 및 로그인 완료');
+      // SDK 초기화 완료를 위해 잠시 대기
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setSdkInitialized(true);
     } catch (error) {
-      console.error('SDK 초기화 실패:', error);
+      console.error('AdchainSDK initialization error:', error);
+      setSdkInitialized(true); // 에러가 발생해도 앱은 계속 실행
     }
   };
+
+  // SDK 초기화 중 로딩 화면 표시
+  if (!sdkInitialized) {
+    return (
+      <SafeAreaView>
+        <ActivityIndicator size="large" color="#007AFF" />
+        <Text>SDK 초기화 중...</Text>
+      </SafeAreaView>
+    );
+  }
 
   return (
     // Your app components...
   );
+}
+
+export default App;
+```
+
+#### 사용자 로그인
+
+SDK 초기화 후, 사용자가 로그인할 때 AdChain SDK에도 로그인해야 합니다:
+
+```typescript
+import AdchainSdk from './services/AdchainSdk';
+
+// 사용자 로그인 화면이나 앱 시작 시
+const loginToAdchain = async (userId: string) => {
+  try {
+    await AdchainSdk.login({
+      userId: userId,           // 필수: 앱의 고유 사용자 ID
+      gender: 'MALE',          // 선택: 'MALE' | 'FEMALE' | 'OTHER'
+      birthYear: 1990,         // 선택: 출생년도 (YYYY)
+    });
+    console.log('AdChain 로그인 성공');
+  } catch (error) {
+    console.error('AdChain 로그인 실패:', error);
+  }
 };
 ```
+
+⚠️ **중요**:
+- SDK 초기화(`initialize`)와 로그인(`login`)은 별도 작업입니다
+- 로그인하지 않으면 Offerwall이 "로그인이 필요합니다" 메시지를 표시합니다
+- 사용자가 앱에서 로그아웃할 때 `AdchainSdk.logout()`도 호출해야 합니다
 
 ---
 
@@ -335,12 +612,14 @@ Offerwall 컴포넌트는 자동으로 로그인 상태를 확인하고, 로그�
 
 WebView와 React Native 앱 간의 **양방향 통신**을 통해 실시간 이벤트 전달과 데이터 요청이 가능합니다.
 
-> 📅 **현재 상태**: 기본 이벤트 브릿지 구현 완료  
-> 🚧 **향후 계획**: 고급 양방향 통신 기능 추가 예정 (v1.1.0)
+> ✅ **현재 상태**: Android v1.0.25, iOS v1.0.41에서 완전히 지원됨
+> 🎯 **주요 기능**: 기본 이벤트, 커스텀 이벤트, 데이터 요청/응답 모두 사용 가능
 
-### 현재 지원 기능
+### 지원 기능
 
 #### 1. 기본 이벤트 처리
+
+Offerwall의 생명주기와 리워드 획득을 추적할 수 있습니다.
 
 ```typescript
 <AdchainOfferwallView
@@ -352,17 +631,15 @@ WebView와 React Native 앱 간의 **양방향 통신**을 통해 실시간 이�
 />
 ```
 
-### 향후 추가 예정 기능
-
-#### 1. 커스텀 이벤트 (v1.1.0 예정)
+#### 2. 커스텀 이벤트 ✨ NEW
 
 WebView에서 앱으로 커스텀 이벤트를 전송할 수 있습니다.
 
 ```typescript
-// 향후 지원 예정
 <AdchainOfferwallView
   placementId="main_offerwall"
   onCustomEvent={(eventType, payload) => {
+    // WebView에서 전송한 이벤트 처리
     if (eventType === 'show_toast') {
       Alert.alert('메시지', payload.message);
     } else if (eventType === 'navigate') {
@@ -372,18 +649,28 @@ WebView에서 앱으로 커스텀 이벤트를 전송할 수 있습니다.
 />
 ```
 
-#### 2. 데이터 요청/응답 (v1.1.0 예정)
+**WebView에서 이벤트 전송 방법 (AdChain 관리자가 설정)**:
+```javascript
+// WebView 내부에서 실행
+window.ReactNativeWebView.postMessage(JSON.stringify({
+  type: 'custom_event',
+  eventType: 'show_toast',
+  payload: { message: '안녕하세요!' }
+}));
+```
+
+#### 3. 데이터 요청/응답 ✨ NEW
 
 WebView에서 앱의 데이터를 요청하고 응답받을 수 있습니다.
 
 ```typescript
-// 향후 지원 예정
 <AdchainOfferwallView
   placementId="main_offerwall"
   onDataRequest={(requestType, params) => {
+    // WebView가 요청한 데이터 타입에 따라 응답
     const responses = {
-      user_points: {points: 12345, currency: 'KRW'},
-      user_profile: {userId: 'user123', nickname: 'Player1'},
+      user_points: {points: userPoints, currency: 'KRW'},
+      user_profile: {userId: currentUser.id, nickname: currentUser.name},
       app_version: {version: '1.0.0', buildNumber: 100},
     };
 
@@ -392,14 +679,81 @@ WebView에서 앱의 데이터를 요청하고 응답받을 수 있습니다.
 />
 ```
 
-### 개발 로드맵
+**WebView에서 데이터 요청 방법 (AdChain 관리자가 설정)**:
+```javascript
+// WebView 내부에서 실행
+window.ReactNativeWebView.postMessage(JSON.stringify({
+  type: 'data_request',
+  requestId: 'unique-request-id-123',
+  requestType: 'user_points',
+  params: {}
+}));
+```
 
-| 버전   | 기능                    | 상태       |
-| ------ | ----------------------- | ---------- |
-| v1.0.0 | 기본 Offerwall 통합     | ✅ 완료    |
-| v1.1.0 | 커스텀 이벤트 브릿지    | 🚧 개발 중 |
-| v1.1.0 | 데이터 요청/응답 시스템 | 🚧 개발 중 |
-| v1.2.0 | 고급 통신 기능          | 📋 계획 중 |
+### 실제 사용 예시
+
+#### 포인트 잔액 표시 예제
+
+```typescript
+function BenefitScreen() {
+  const [userPoints, setUserPoints] = useState(12345);
+
+  return (
+    <AdchainOfferwallView
+      placementId="benefit_tab"
+      onDataRequest={(requestType, params) => {
+        if (requestType === 'user_points') {
+          // 앱의 실제 포인트 정보 반환
+          return {
+            points: userPoints,
+            currency: 'KRW',
+            lastUpdated: new Date().toISOString()
+          };
+        }
+        return null;
+      }}
+      onCustomEvent={(eventType, payload) => {
+        if (eventType === 'points_updated') {
+          // WebView에서 포인트가 변경되었음을 알림
+          setUserPoints(payload.newPoints);
+          Alert.alert('포인트 획득!', `${payload.earnedPoints}P를 획득했습니다!`);
+        }
+      }}
+      onRewardEarned={(amount) => {
+        // 기본 리워드 이벤트
+        console.log(`${amount}P 획득`);
+      }}
+    />
+  );
+}
+```
+
+### 이벤트 브릿지 아키텍처
+
+```
+┌─────────────────┐           ┌─────────────────┐
+│   React Native  │           │     WebView     │
+│      App        │           │   (Offerwall)   │
+└────────┬────────┘           └────────┬────────┘
+         │                             │
+         │  onCustomEvent ◄────────────┤ postMessage
+         │  onDataRequest ◄────────────┤ postMessage
+         │                             │
+         │  리워드 획득 이벤트          │
+         │  ◄──────────────────────────┤
+         │                             │
+         │  데이터 응답 ────────────────►
+         └─────────────────────────────┘
+```
+
+### 주의사항
+
+⚠️ **이벤트 브릿지 사용 시 고려사항**:
+
+1. **성능**: 데이터 요청은 동기적으로 처리되므로 무거운 작업은 피해야 합니다
+2. **타임아웃**: 데이터 요청은 5초 타임아웃이 있습니다
+3. **권한**: WebView에서 요청하는 민감한 데이터는 검증 후 제공해야 합니다
+4. **에러 처리**: 데이터를 제공할 수 없는 경우 `null` 또는 `undefined`를 반환하세요
 
 ---
 
@@ -521,11 +875,31 @@ npx react-native run-ios
 
 | 날짜       | 버전  | 변경 내용                                                      |
 | ---------- | ----- | -------------------------------------------------------------- |
-| 2025-10-20 | 1.0.0 | 최초 릴리스 - 네이티브 Offerwall 뷰 및 기본 이벤트 브릿지 지원 |
-| 2025-10-20 | 1.1.0 | 고급 양방향 통신 기능 추가 예정 (개발 중)                      |
+| 2025-10-20 | 1.0.0 | 최초 릴리스 - 네이티브 Offerwall 뷰, 완전한 이벤트 브릿지 지원 (기본 이벤트, 커스텀 이벤트, 데이터 요청/응답 모두 포함) |
+| 2025-10-20 | 1.0.1 | README 개선 - FACT 체크, 고객 관점 설명 강화, "시작하기 전에" 섹션 추가 |
 
-**Version**: 1.0.0  
-**Last Updated**: 2025-10-20  
-**React Native**: 0.79.2  
-**Android SDK**: v1.0.25  
+**Version**: 1.0.1
+**Last Updated**: 2025-10-20
+**React Native**: 0.79.2
+**Android SDK**: v1.0.25
 **iOS SDK**: v1.0.41
+
+---
+
+## 💬 지원 및 문의
+
+### 기술 지원
+
+- 📧 **이메일**: [AdChain 기술지원 이메일]
+- 📖 **공식 문서**: [AdChain SDK 문서]
+- 🐛 **이슈 리포트**: GitHub Issues
+
+### 파트너 문의
+
+AdChain SDK 연동에 관심이 있으시거나 APP_KEY/APP_SECRET 발급이 필요하신 경우, 1Self World 파트너 담당자에게 문의해주세요.
+
+---
+
+**🎉 AdChain SDK를 선택해 주셔서 감사합니다!**
+
+이 샘플 앱이 React Native 프로젝트에 AdChain SDK를 성공적으로 연동하는 데 도움이 되기를 바랍니다.
