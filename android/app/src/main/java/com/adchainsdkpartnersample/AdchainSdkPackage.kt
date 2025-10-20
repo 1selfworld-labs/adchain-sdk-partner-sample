@@ -10,5 +10,5 @@ class AdchainSdkPackage : ReactPackage {
     listOf(AdchainSdkModule(rc))
     
   override fun createViewManagers(rc: ReactApplicationContext): List<ViewManager<*, *>> = 
-    emptyList()
+    listOf(AdchainOfferwallViewManager())
 }

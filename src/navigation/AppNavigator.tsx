@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { TouchableOpacity, Text, Alert, StyleSheet } from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
 import ListScreen from '../screens/ListScreen';
 import FavoriteScreen from '../screens/FavoriteScreen';
-import BenefitScreen from '../screens/BenefitScreen';
 import MyPageScreen from '../screens/MyPageScreen';
 import SdkExampleScreen from '../screens/SdkExampleScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import AdchainSdk from '../services/AdchainSdk';
-import { WEBVIEW_CONFIG } from '../components/webview/webview.config';
+import AdchainOfferwallView from '../components/offerwall';
+import OfferwallTestScreen from '../screens/OfferwallTestScreen';
 
 export type TabParamList = {
   Home: undefined;
@@ -22,6 +21,7 @@ export type TabParamList = {
 export type RootStackParamList = {
   MainTabs: undefined;
   SdkExample: undefined;
+  OfferwallTest: undefined;
 };
 
 const Tab = createBottomTabNavigator<TabParamList>();
@@ -56,7 +56,6 @@ const MyPageIcon = ({color}: {color: string}) => (
 );
 
 const TabNavigator = () => {
-  const [benefitKey, setBenefitKey] = useState(0);
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -100,14 +99,18 @@ const TabNavigator = () => {
           headerShown: false,
           tabBarIcon: BenefitIcon,
         }}
-        listeners={{
-          tabPress: () => {
-            setBenefitKey((k) => k + 1);
-            AdchainSdk.openOfferwallWithUrl(WEBVIEW_CONFIG.DEFAULT_URL, 'main_adjoe_test');
-          },
-        }}
       >
-        {() => <BenefitScreen key={benefitKey} />}
+        {() => (
+          // 탭버튼 클릭 시 다시 렌더링 되도록 처리
+
+
+          <AdchainOfferwallView
+            placementId="main_adjoe_test"
+            appKey="123456781"
+            baseUrl="https://adchain-offerwall-ddocdoc.1self.world/"
+            platform="ios"
+          />
+        )}
       </Tab.Screen>
       <Tab.Screen
         name="MyPage"
@@ -137,6 +140,15 @@ const AppNavigator = () => {
         component={SdkExampleScreen}
         options={{
           title: 'SDK Example',
+          headerShown: false,
+          presentation: 'modal',
+        }}
+      />
+      <Stack.Screen
+        name="OfferwallTest"
+        component={OfferwallTestScreen}
+        options={{
+          title: 'Offerwall Test',
           headerShown: false,
           presentation: 'modal',
         }}

@@ -16,6 +16,10 @@
 		B62620192E8CCB3800CFBB31 /* AdchainSdk.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62620172E8CCB3800CFBB31 /* AdchainSdk.swift */; };
 		B626201D2E8CCDCF00CFBB31 /* Storage.m in Sources */ = {isa = PBXBuildFile; fileRef = B626201B2E8CCDCF00CFBB31 /* Storage.m */; };
 		B626201E2E8CCDCF00CFBB31 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B626201C2E8CCDCF00CFBB31 /* Storage.swift */; };
+		B6E6D24C2EA53D43001DD7D5 /* AdchainOfferwallViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B6E6D24B2EA53D43001DD7D5 /* AdchainOfferwallViewManager.m */; };
+		B6E6D2502EA53D6B001DD7D5 /* AdchainOfferwallViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E6D24F2EA53D6B001DD7D5 /* AdchainOfferwallViewManager.swift */; };
+		B6E6D2522EA53D7C001DD7D5 /* AdchainOfferwallView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6E6D2512EA53D7C001DD7D5 /* AdchainOfferwallView.m */; };
+		B6E6D2542EA53D8A001DD7D5 /* AdchainOfferwallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E6D2532EA53D8A001DD7D5 /* AdchainOfferwallView.swift */; };
 		C93A3F81010C9BDD864DA74B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +40,10 @@
 		B626201A2E8CCB4E00CFBB31 /* AdchainSdkPartnerSample-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AdchainSdkPartnerSample-Bridging-Header.h"; sourceTree = "<group>"; };
 		B626201B2E8CCDCF00CFBB31 /* Storage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Storage.m; sourceTree = "<group>"; };
 		B626201C2E8CCDCF00CFBB31 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		B6E6D24B2EA53D43001DD7D5 /* AdchainOfferwallViewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AdchainOfferwallViewManager.m; path = AdchainSdkPartnerSample/AdchainOfferwallViewManager.m; sourceTree = "<group>"; };
+		B6E6D24F2EA53D6B001DD7D5 /* AdchainOfferwallViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AdchainOfferwallViewManager.swift; path = AdchainSdkPartnerSample/AdchainOfferwallViewManager.swift; sourceTree = "<group>"; };
+		B6E6D2512EA53D7C001DD7D5 /* AdchainOfferwallView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AdchainOfferwallView.m; path = AdchainSdkPartnerSample/AdchainOfferwallView.m; sourceTree = "<group>"; };
+		B6E6D2532EA53D8A001DD7D5 /* AdchainOfferwallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AdchainOfferwallView.swift; path = AdchainSdkPartnerSample/AdchainOfferwallView.swift; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -54,6 +62,10 @@
 		13B07FAE1A68108700A75B9A /* AdchainSdkPartnerSample */ = {
 			isa = PBXGroup;
 			children = (
+				B6E6D24B2EA53D43001DD7D5 /* AdchainOfferwallViewManager.m */,
+				B6E6D2512EA53D7C001DD7D5 /* AdchainOfferwallView.m */,
+				B6E6D24F2EA53D6B001DD7D5 /* AdchainOfferwallViewManager.swift */,
+				B6E6D2532EA53D8A001DD7D5 /* AdchainOfferwallView.swift */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				761780ED2CA45674006654EE /* AppDelegate.h */,
 				761780EE2CA45674006654EE /* AppDelegate.mm */,
@@ -268,9 +280,13 @@
 				B62620182E8CCB3800CFBB31 /* AdchainSdk.m in Sources */,
 				B62620192E8CCB3800CFBB31 /* AdchainSdk.swift in Sources */,
 				B626201D2E8CCDCF00CFBB31 /* Storage.m in Sources */,
+				B6E6D24C2EA53D43001DD7D5 /* AdchainOfferwallViewManager.m in Sources */,
+				B6E6D2522EA53D7C001DD7D5 /* AdchainOfferwallView.m in Sources */,
 				B626201E2E8CCDCF00CFBB31 /* Storage.swift in Sources */,
 				761780EF2CA45674006654EE /* AppDelegate.mm in Sources */,
 				761780F02CA45674006654EE /* main.m in Sources */,
+				B6E6D2502EA53D6B001DD7D5 /* AdchainOfferwallViewManager.swift in Sources */,
+				B6E6D2542EA53D8A001DD7D5 /* AdchainOfferwallView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

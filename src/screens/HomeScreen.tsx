@@ -58,18 +58,18 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
       if (!isInitialized) {
         const sdkConfig = Platform.select({
           android: {
-            appKey: '100000001',
-            appSecret: 'gjFs586lLuUweJRN',
+            appKey: '123456781',
+            appSecret: 'abcdefghigjk',
             environment: 'PRODUCTION' as const,
           },
           ios: {
-            appKey: '100000002',
-            appSecret: '3ANgfF9Zfbm79oa6',
+            appKey: '123456781',
+            appSecret: 'abcdefghigjk',
             environment: 'PRODUCTION' as const,
           },
           default: {
-            appKey: 'test-app',
-            appSecret: 'test-secret',
+            appKey: '123456781',
+            appSecret: 'abcdefghigjk',
             environment: 'DEVELOPMENT' as const,
           },
         });
@@ -162,7 +162,9 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity style={[styles.promotionCard, styles.promotionCardTertiary]}>
+            <TouchableOpacity
+              style={[styles.promotionCard, styles.promotionCardTertiary]}
+              onPress={() => navigation.navigate('OfferwallTest' as any)}>
               <View style={styles.promotionContent}>
                 <Text style={styles.promotionEmoji}>💰</Text>
                 <Text style={styles.promotionTitle}>Offerwall</Text>

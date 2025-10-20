@@ -37,10 +37,7 @@
 
 ```typescript
 // 현재 설정 (예시)
-DEFAULT_URL: 'http://192.168.0.29:18000/?user_id=ac_PrdDDYvb2YOTU0hHkBa0ZQ&platform=IOS&app_key=123456781&ifa=32e197b8-56a2-49e2-8207-c573425c1b3b&sdk_version=1.0.35';
-
-// 수정 방법: 본인의 IP 주소와 정보로 변경
-DEFAULT_URL: 'http://YOUR_IP:PORT/?user_id=YOUR_USER_ID&platform=IOS&app_key=YOUR_APP_KEY&ifa=YOUR_IFA&sdk_version=1.0.35';
+DEFAULT_URL: 'https://adchain-offerwall-ddocdoc.1self.world/?user_id=ac_PrdDDYvb2YOTU0hHkBa0ZQ&platform=IOS&app_key=123456781&ifa=32e197b8-56a2-49e2-8207-c573425c1b3b&sdk_version=1.0.35';
 ```
 
 #### 📱 주요 파라미터 설정
@@ -474,7 +471,7 @@ await AdchainSdk.openOfferwallWithUrl('https://example.com', 'placement-id');
 export const WEBVIEW_CONFIG = {
   // 개발 환경 URL (로컬 서버)
   DEFAULT_URL:
-    'http://192.168.0.29:18000/?user_id=ac_PrdDDYvb2YOTU0hHkBa0ZQ&platform=IOS&app_key=123456781&ifa=32e197b8-56a2-49e2-8207-c573425c1b3b&sdk_version=1.0.35',
+    'https://adchain-offerwall-ddocdoc.1self.world/?user_id=ac_PrdDDYvb2YOTU0hHkBa0ZQ&platform=IOS&app_key=123456781&ifa=32e197b8-56a2-49e2-8207-c573425c1b3b&sdk_version=1.0.35',
 
   // 프로덕션 환경 URL
   PRODUCTION_URL:
@@ -484,14 +481,11 @@ export const WEBVIEW_CONFIG = {
 
 ### 필수 수정 요소
 
-#### 1. 개발 서버 IP 주소 변경
+#### 1. config setting
 
 ```typescript
 // 현재 설정 (예시)
-DEFAULT_URL: 'http://192.168.0.29:18000/?user_id=ac_PrdDDYvb2YOTU0hHkBa0ZQ&platform=IOS&app_key=123456781&ifa=32e197b8-56a2-49e2-8207-c573425c1b3b&sdk_version=1.0.35';
-
-// 수정 방법: 본인의 IP 주소로 변경
-DEFAULT_URL: 'http://YOUR_IP_ADDRESS:18000/?user_id=YOUR_USER_ID&platform=IOS&app_key=YOUR_APP_KEY&ifa=YOUR_IFA&sdk_version=1.0.35';
+DEFAULT_URL: 'https://adchain-offerwall-ddocdoc.1self.world/?user_id=ac_PrdDDYvb2YOTU0hHkBa0ZQ&platform=IOS&app_key=123456781&ifa=32e197b8-56a2-49e2-8207-c573425c1b3b&sdk_version=1.0.35';
 ```
 
 #### 2. 프로덕션 환경 설정
