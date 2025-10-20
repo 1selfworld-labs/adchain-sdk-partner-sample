@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
-import { TouchableOpacity, Text, Alert, StyleSheet } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { TouchableOpacity, Text, Alert, StyleSheet, Platform } from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
 import ListScreen from '../screens/ListScreen';
 import FavoriteScreen from '../screens/FavoriteScreen';
-import BenefitScreen from '../screens/BenefitScreen';
 import MyPageScreen from '../screens/MyPageScreen';
 import SdkExampleScreen from '../screens/SdkExampleScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import AdchainSdk from '../services/AdchainSdk';
-import { WEBVIEW_CONFIG } from '../components/webview/webview.config';
+import AdchainOfferwallView from '../components/offerwall';
 
 export type TabParamList = {
   Home: undefined;
@@ -57,6 +55,35 @@ const MyPageIcon = ({color}: {color: string}) => (
 
 const TabNavigator = () => {
   const [benefitKey, setBenefitKey] = useState(0);
+  const offerwallViewRef = useRef(null);
+  // const viewRef = useRef<any>(null);
+
+  // // SDK 설정에서 기본값 가져오기
+  // const defaultAppKey = Platform.select({
+  //   android: '123456781',
+  //   ios: '123456781',
+  //   default: '123456781',
+  // });
+
+  // const defaultBaseUrl = 'https://adchain-offerwall-ddocdoc.1self.world/?user_id=ac_PrdDDYvb2YOTU0hHkBa0ZQ&platform=Android&app_key=100000001&ifa=32e197b8-56a2-49e2-8207-c573425c1b3b&sdk_version=1.0.33';
+  // const defaultPlatform = Platform.OS;
+
+  // // Status bar 높이 계산 (iOS는 기기별로 다름)
+  // const getStatusBarHeight = () => {
+  //   if (Platform.OS === 'ios') {
+  //     const { height, width } = Dimensions.get('window');
+  //     // iPhone X 이상 (notch가 있는 기기)
+  //     if (height >= 812 || width >= 812) {
+  //       return 44; // iPhone X 이상
+  //     } else {
+  //       return 20; // iPhone 8 이하
+  //     }
+  //   } else {
+  //     return StatusBar.currentHeight || 0;
+  //   }
+  // };
+  // const statusBarHeight = getStatusBarHeight();
+
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -101,13 +128,53 @@ const TabNavigator = () => {
           tabBarIcon: BenefitIcon,
         }}
         listeners={{
-          tabPress: () => {
-            setBenefitKey((k) => k + 1);
-            AdchainSdk.openOfferwallWithUrl(WEBVIEW_CONFIG.DEFAULT_URL, 'main_adjoe_test');
+          tabPress: (e) => {
+            // 탭이 클릭될 때마다 key를 변경하여 컴포넌트 재마운트
+            setBenefitKey(prev => prev + 1);
           },
         }}
       >
-        {() => <BenefitScreen key={benefitKey} />}
+        {() => (
+          <AdchainOfferwallView
+            key={benefitKey}
+            ref={offerwallViewRef}
+            placementId="tab_embedded_offerwall"
+            style={{ flex: 1, width: '100%' }}
+            onOfferwallOpened={() => console.log('Offerwall opened in tab')}
+            onOfferwallClosed={() => console.log('Offerwall closed in tab')}
+            onOfferwallError={(error) => console.error('Offerwall error:', error)}
+            onRewardEarned={(amount) => console.log('Reward earned:', amount)}
+            onCustomEvent={(eventType, payload) => {
+              console.log('[WebView → App] Custom Event:', eventType, payload);
+
+              // 이벤트 타입별 처리
+              if (eventType === 'show_toast') {
+                Alert.alert('WebView Message', payload.message || JSON.stringify(payload));
+              } else if (eventType === 'navigate') {
+                Alert.alert('Navigation Request', `Target: ${payload.screen || 'unknown'}`);
+              } else if (eventType === 'share') {
+                Alert.alert('Share Request', `Title: ${payload.title || ''}\nURL: ${payload.url || ''}`);
+              } else {
+                Alert.alert('Custom Event', `Type: ${eventType}\n\n${JSON.stringify(payload, null, 2)}`);
+              }
+            }}
+            onDataRequest={(requestType, params) => {
+              console.log('[WebView → App] Data Request:', requestType, params);
+
+              // 요청 타입별 응답 데이터
+              const responses: Record<string, any> = {
+                'user_points': { points: 12345, currency: 'KRW' },
+                'user_profile': { userId: 'test_123', nickname: 'TestPlayer', level: 42 },
+                'app_version': { version: '1.0.0', buildNumber: 100 },
+              };
+
+              const response = responses[requestType] || null;
+              console.log('[App → WebView] Data Response:', response);
+
+              return response;
+            }}
+         />
+        )}
       </Tab.Screen>
       <Tab.Screen
         name="MyPage"

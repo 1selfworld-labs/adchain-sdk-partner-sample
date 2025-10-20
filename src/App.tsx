@@ -10,11 +10,11 @@ import AdchainSdk from './services/AdchainSdk';
 // SDK 환경 설정
 const SDK_CONFIG = {
   android: {
-    APP_KEY: '123456781',
+    APP_KEY: '123456783',
     APP_SECRET: 'abcdefghigjk',
   },
   ios: {
-    APP_KEY: '123456782',
+    APP_KEY: '123456784',
     APP_SECRET: 'abcdefghigjk',
   },
 };

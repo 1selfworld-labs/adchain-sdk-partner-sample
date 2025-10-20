@@ -16,6 +16,8 @@
 		B62620192E8CCB3800CFBB31 /* AdchainSdk.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62620172E8CCB3800CFBB31 /* AdchainSdk.swift */; };
 		B626201D2E8CCDCF00CFBB31 /* Storage.m in Sources */ = {isa = PBXBuildFile; fileRef = B626201B2E8CCDCF00CFBB31 /* Storage.m */; };
 		B626201E2E8CCDCF00CFBB31 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B626201C2E8CCDCF00CFBB31 /* Storage.swift */; };
+		B6CBF3932EA61481009A4569 /* AdchainOfferwallViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B6CBF3922EA61481009A4569 /* AdchainOfferwallViewManager.m */; };
+		B6CBF3952EA6148D009A4569 /* AdchainOfferwallViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CBF3942EA6148D009A4569 /* AdchainOfferwallViewManager.swift */; };
 		C93A3F81010C9BDD864DA74B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +38,8 @@
 		B626201A2E8CCB4E00CFBB31 /* AdchainSdkPartnerSample-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AdchainSdkPartnerSample-Bridging-Header.h"; sourceTree = "<group>"; };
 		B626201B2E8CCDCF00CFBB31 /* Storage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Storage.m; sourceTree = "<group>"; };
 		B626201C2E8CCDCF00CFBB31 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		B6CBF3922EA61481009A4569 /* AdchainOfferwallViewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AdchainOfferwallViewManager.m; sourceTree = "<group>"; };
+		B6CBF3942EA6148D009A4569 /* AdchainOfferwallViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdchainOfferwallViewManager.swift; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -84,6 +88,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				B6CBF3942EA6148D009A4569 /* AdchainOfferwallViewManager.swift */,
+				B6CBF3922EA61481009A4569 /* AdchainOfferwallViewManager.m */,
 				B626201B2E8CCDCF00CFBB31 /* Storage.m */,
 				B626201C2E8CCDCF00CFBB31 /* Storage.swift */,
 				B62620162E8CCB3800CFBB31 /* AdchainSdk.m */,
@@ -268,6 +274,8 @@
 				B62620182E8CCB3800CFBB31 /* AdchainSdk.m in Sources */,
 				B62620192E8CCB3800CFBB31 /* AdchainSdk.swift in Sources */,
 				B626201D2E8CCDCF00CFBB31 /* Storage.m in Sources */,
+				B6CBF3932EA61481009A4569 /* AdchainOfferwallViewManager.m in Sources */,
+				B6CBF3952EA6148D009A4569 /* AdchainOfferwallViewManager.swift in Sources */,
 				B626201E2E8CCDCF00CFBB31 /* Storage.swift in Sources */,
 				761780EF2CA45674006654EE /* AppDelegate.mm in Sources */,
 				761780F02CA45674006654EE /* main.m in Sources */,

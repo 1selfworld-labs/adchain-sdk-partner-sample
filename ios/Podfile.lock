@@ -1,5 +1,5 @@
 PODS:
-  - AdChainSDK (1.0.38)
+  - AdChainSDK (1.0.41)
   - boost (1.84.0)
   - DoubleConversion (1.1.6)
   - fast_float (6.1.4)
@@ -1710,7 +1710,7 @@ PODS:
   - Yoga (0.0.0)
 
 DEPENDENCIES:
-  - AdChainSDK (from `https://github.com/1selfworld-labs/adchain-sdk-ios-release.git`, tag `v1.0.38`)
+  - AdChainSDK (from `https://github.com/1selfworld-labs/adchain-sdk-ios-release.git`, tag `v1.0.41`)
   - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - fast_float (from `../node_modules/react-native/third-party-podspecs/fast_float.podspec`)
@@ -1794,7 +1794,7 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   AdChainSDK:
     :git: https://github.com/1selfworld-labs/adchain-sdk-ios-release.git
-    :tag: v1.0.38
+    :tag: v1.0.41
   boost:
     :podspec: "../node_modules/react-native/third-party-podspecs/boost.podspec"
   DoubleConversion:
@@ -1946,10 +1946,10 @@ EXTERNAL SOURCES:
 CHECKOUT OPTIONS:
   AdChainSDK:
     :git: https://github.com/1selfworld-labs/adchain-sdk-ios-release.git
-    :tag: v1.0.38
+    :tag: v1.0.41
 
 SPEC CHECKSUMS:
-  AdChainSDK: 8531d5ed71cfd295f6aae0a39a9b54a6db31834b
+  AdChainSDK: 0974e176fef2933436183778b08bb5794a387523
   boost: 7e761d76ca2ce687f7cc98e698152abd03a18f90
   DoubleConversion: cb417026b2400c8f53ae97020b2be961b59470cb
   fast_float: 06eeec4fe712a76acc9376682e4808b05ce978b6
@@ -2025,6 +2025,6 @@ SPEC CHECKSUMS:
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   Yoga: 50518ade05048235d91a78b803336dbb5b159d5d
 
-PODFILE CHECKSUM: 3cf6613d8528f8dc80b2393ab4469d6fb9770250
+PODFILE CHECKSUM: 1c42acc0d6c7dc8f628f1696b4a447e75e4fbf2b
 
 COCOAPODS: 1.16.2
