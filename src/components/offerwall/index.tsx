@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import {
   requireNativeComponent,
   ViewStyle,
@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import AdchainSdk from '../../services/AdchainSdk';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useFocusEffect } from '@react-navigation/native';
 
 /**
  * Event types for Offerwall callbacks
@@ -143,7 +144,8 @@ export const AdchainOfferwallView = React.forwardRef<any, AdchainOfferwallViewPr
   const viewRef = useRef(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
   const insets = useSafeAreaInsets();
-  const checkLoginStatus = async () => {
+
+  const checkLoginStatus = useCallback(async () => {
     try {
       const loggedIn = await AdchainSdk.isLoggedIn();
       setIsLoggedIn(loggedIn);
@@ -151,11 +153,14 @@ export const AdchainOfferwallView = React.forwardRef<any, AdchainOfferwallViewPr
       console.error('Failed to check login status:', error);
       setIsLoggedIn(false);
     }
-  };
-
-  useEffect(() => {
-    checkLoginStatus();
   }, []);
+
+  // 탭이 포커스될 때마다 로그인 상태 확인 (로그인 후 화면 갱신 지원)
+  useFocusEffect(
+    useCallback(() => {
+      checkLoginStatus();
+    }, [checkLoginStatus])
+  );
 
   // Merge external ref with internal ref
   React.useImperativeHandle(ref, () => viewRef.current);

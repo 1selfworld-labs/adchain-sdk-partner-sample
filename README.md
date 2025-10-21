@@ -3,7 +3,7 @@
 > 🚀 **AdChain SDK를 React Native에 완벽하게 통합하는 샘플 앱입니다.**  
 > 네이티브 Offerwall 뷰와 WebView-App 이벤트 브릿지를 통해 최적의 사용자 경험을 제공합니다.
 
-[![SDK Version](https://img.shields.io/badge/Android-v1.0.25-blue)](https://github.com/1selfworld-labs/adchain-sdk-android)
+[![SDK Version](https://img.shields.io/badge/Android-v1.0.28-blue)](https://github.com/1selfworld-labs/adchain-sdk-android)
 [![SDK Version](https://img.shields.io/badge/iOS-v1.0.41-blue)](https://github.com/1selfworld-labs/adchain-sdk-ios-release)
 [![React Native](https://img.shields.io/badge/React%20Native-0.79.2-blue)](https://reactnative.dev/)
 
@@ -45,7 +45,7 @@ WebView 대신 **네이티브 Offerwall 뷰**를 사용하여 최적의 성능�
 | 항목         | 버전    | 비고                |
 | ------------ | ------- | ------------------- |
 | React Native | 0.79.2  | Legacy Architecture |
-| Android SDK  | v1.0.25 | API 21+             |
+| Android SDK  | v1.0.28 | API 21+             |
 | iOS SDK      | v1.0.41 | iOS 16.0+           |
 
 ---
@@ -170,7 +170,7 @@ dependencies {
     // ===== AdChain SDK 추가 시작 =====
 
     // AdChain SDK - 핵심 라이브러리
-    implementation 'com.github.1selfworld-labs:adchain-sdk-android:v1.0.25'
+    implementation 'com.github.1selfworld-labs:adchain-sdk-android:v1.0.28'
 
     // Kotlin 관련 의존성
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.21"
@@ -877,11 +877,12 @@ npx react-native run-ios
 | ---------- | ----- | -------------------------------------------------------------- |
 | 2025-10-20 | 1.0.0 | 최초 릴리스 - 네이티브 Offerwall 뷰, 완전한 이벤트 브릿지 지원 (기본 이벤트, 커스텀 이벤트, 데이터 요청/응답 모두 포함) |
 | 2025-10-20 | 1.0.1 | README 개선 - FACT 체크, 고객 관점 설명 강화, "시작하기 전에" 섹션 추가 |
+| 2025-10-21 | 1.0.2 | Android SDK v1.0.28 업데이트, Offerwall 탭 포커스 시 로그인 상태 자동 갱신 기능 추가 |
 
-**Version**: 1.0.1
-**Last Updated**: 2025-10-20
+**Version**: 1.0.2
+**Last Updated**: 2025-10-21
 **React Native**: 0.79.2
-**Android SDK**: v1.0.25
+**Android SDK**: v1.0.28
 **iOS SDK**: v1.0.41
 
 ---

@@ -124,8 +124,9 @@ dependencies {
         implementation jscFlavor
     }
 
-    // AdChain SDK - 아래 한 줄만 추가하면 됩니다!
-    implementation 'com.github.1selfworld-labs:adchain-sdk-android:v1.0.27'
+    // AdChain SDK - 로컬 모듈 사용 (개발/테스트용)
+    //implementation project(':adchain-sdk')
+    implementation 'com.github.1selfworld-labs:adchain-sdk-android:v1.0.28' // GitHub 버전 (배포용)
 
     // AdChain SDK가 필요로 하는 의존성들
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.21"
