@@ -4,7 +4,6 @@ import {
   ViewStyle,
   UIManager,
   findNodeHandle,
-  Platform,
   View,
   Text,
   StyleSheet,
@@ -98,7 +97,7 @@ export interface AdchainOfferwallViewProps {
  */
 interface NativeOfferwallViewProps {
   style?: ViewStyle;
-  placementId?: string;  // iOS uses property, Android uses command
+  placementId?: string;  // Both iOS and Android now use property
   onOfferwallOpened?: () => void;
   onOfferwallClosed?: () => void;
   onOfferwallError?: (event: OfferwallErrorEvent) => void;
@@ -161,27 +160,8 @@ export const AdchainOfferwallView = React.forwardRef<any, AdchainOfferwallViewPr
   // Merge external ref with internal ref
   React.useImperativeHandle(ref, () => viewRef.current);
 
-  // Load offerwall using UIManager command when placementId changes
-  useEffect(() => {
-    if (placementId && viewRef.current) {
-      const viewId = findNodeHandle(viewRef.current);
-
-      if (viewId) {
-        if (Platform.OS === 'android') {
-          try {
-            // Use command name directly (React Native 0.74+ style)
-            UIManager.dispatchViewManagerCommand(
-              viewId,
-              'loadOfferwall',
-              [placementId]
-            );
-          } catch (error) {
-            console.error('[OfferwallView] Failed to dispatch command:', error);
-          }
-        }
-      }
-    }
-  }, [placementId]);
+  // Note: For Android, placementId is now handled via @ReactProp in the native ViewManager
+  // iOS uses the property directly. No manual command dispatch needed.
 
   // Handle native error events
   const handleOfferwallError = (event: OfferwallErrorEvent) => {
@@ -247,7 +227,7 @@ export const AdchainOfferwallView = React.forwardRef<any, AdchainOfferwallViewPr
       <NativeOfferwallView
         ref={viewRef}
         style={StyleSheet.flatten([{ flex: 1 }, style])}
-        placementId={Platform.OS === 'ios' ? placementId : undefined}
+        placementId={placementId}
         onOfferwallOpened={onOfferwallOpened}
         onOfferwallClosed={onOfferwallClosed}
         onOfferwallError={handleOfferwallError}

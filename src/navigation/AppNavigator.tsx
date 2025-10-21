@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { TouchableOpacity, Text, Alert, StyleSheet } from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
 import ListScreen from '../screens/ListScreen';
@@ -54,7 +54,6 @@ const MyPageIcon = ({color}: {color: string}) => (
 );
 
 const TabNavigator = () => {
-  const [benefitKey, setBenefitKey] = useState(0);
   const offerwallViewRef = useRef(null);
 
   return (
@@ -100,16 +99,9 @@ const TabNavigator = () => {
           headerShown: false,
           tabBarIcon: BenefitIcon,
         }}
-        listeners={{
-          tabPress: (e) => {
-            // 탭이 클릭될 때마다 key를 변경하여 컴포넌트 재마운트
-            setBenefitKey(prev => prev + 1);
-          },
-        }}
       >
         {() => (
           <AdchainOfferwallView
-            key={benefitKey}
             ref={offerwallViewRef}
             placementId="tab_embedded_offerwall"
             style={{ flex: 1, width: '100%' }}

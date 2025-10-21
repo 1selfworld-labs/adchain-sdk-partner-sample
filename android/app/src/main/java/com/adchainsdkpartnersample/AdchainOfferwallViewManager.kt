@@ -8,6 +8,7 @@ import com.facebook.react.bridge.WritableMap
 import com.facebook.react.modules.core.DeviceEventManagerModule
 import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
+import com.facebook.react.uimanager.annotations.ReactProp
 import com.adchain.sdk.core.AdchainSdk
 import com.adchain.sdk.offerwall.AdchainOfferwallView
 import com.adchain.sdk.offerwall.OfferwallCallback
@@ -232,6 +233,15 @@ class AdchainOfferwallViewManager : SimpleViewManager<AdchainOfferwallView>() {
             putString("error", error)
         }
         sendEvent(view, "onOfferwallError", map)
+    }
+
+    @ReactProp(name = "placementId")
+    fun setPlacementId(view: AdchainOfferwallView, placementId: String?) {
+        Log.d(TAG, "setPlacementId called - placementId: $placementId")
+        if (!placementId.isNullOrEmpty()) {
+            // Auto-load offerwall when placementId is set
+            loadOfferwall(view, placementId)
+        }
     }
 
     override fun getExportedCustomDirectEventTypeConstants(): Map<String, Any> {

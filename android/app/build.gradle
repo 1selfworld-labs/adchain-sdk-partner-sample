@@ -106,7 +106,8 @@ android {
             signingConfig signingConfigs.debug
         }
         release {
-            signingConfig signingConfigs.release
+            // 테스트용: 서명 설정 비활성화 (실제 배포 시 활성화 필요)
+            // signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
