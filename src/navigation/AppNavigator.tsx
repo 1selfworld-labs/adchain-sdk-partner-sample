@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { TouchableOpacity, Text, Alert, StyleSheet, Platform } from 'react-native';
+import { TouchableOpacity, Text, Alert, StyleSheet } from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
 import ListScreen from '../screens/ListScreen';
 import FavoriteScreen from '../screens/FavoriteScreen';
@@ -56,33 +56,6 @@ const MyPageIcon = ({color}: {color: string}) => (
 const TabNavigator = () => {
   const [benefitKey, setBenefitKey] = useState(0);
   const offerwallViewRef = useRef(null);
-  // const viewRef = useRef<any>(null);
-
-  // // SDK 설정에서 기본값 가져오기
-  // const defaultAppKey = Platform.select({
-  //   android: '123456781',
-  //   ios: '123456781',
-  //   default: '123456781',
-  // });
-
-  // const defaultBaseUrl = 'https://adchain-offerwall-ddocdoc.1self.world/?user_id=ac_PrdDDYvb2YOTU0hHkBa0ZQ&platform=Android&app_key=100000001&ifa=32e197b8-56a2-49e2-8207-c573425c1b3b&sdk_version=1.0.33';
-  // const defaultPlatform = Platform.OS;
-
-  // // Status bar 높이 계산 (iOS는 기기별로 다름)
-  // const getStatusBarHeight = () => {
-  //   if (Platform.OS === 'ios') {
-  //     const { height, width } = Dimensions.get('window');
-  //     // iPhone X 이상 (notch가 있는 기기)
-  //     if (height >= 812 || width >= 812) {
-  //       return 44; // iPhone X 이상
-  //     } else {
-  //       return 20; // iPhone 8 이하
-  //     }
-  //   } else {
-  //     return StatusBar.currentHeight || 0;
-  //   }
-  // };
-  // const statusBarHeight = getStatusBarHeight();
 
   return (
     <Tab.Navigator
