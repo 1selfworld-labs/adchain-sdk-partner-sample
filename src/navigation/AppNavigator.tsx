@@ -7,7 +7,7 @@ import MyPageScreen from '../screens/MyPageScreen';
 import SdkExampleScreen from '../screens/SdkExampleScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import AdchainOfferwallView from '../components/offerwall';
+import { AdchainOfferwallView } from '@1selfworld/adchain-sdk-react-native';
 
 export type TabParamList = {
   Home: undefined;

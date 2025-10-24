@@ -19,7 +19,7 @@ class MainApplication : Application(), ReactApplication {
       object : DefaultReactNativeHost(this) {
         override fun getPackages(): List<ReactPackage> =
             PackageList(this).packages.apply {
-              add(AdchainSdkPackage())
+              // AdchainSdkPackage는 SDK 패키지 autolinking으로 자동 등록됨
               add(StoragePackage())
               // Packages that cannot be autolinked yet can be added manually here, for example:
               // add(MyReactNativePackage())

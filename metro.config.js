@@ -1,19 +1,19 @@
 const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
-
+const path = require('path');
+const exclusionList = require('metro-config/src/defaults/exclusionList');
 /**
  * Metro configuration
  * https://reactnative.dev/docs/metro
  *
  * @type {import('@react-native/metro-config').MetroConfig}
  */
+
 const config = {
-    resolver: {
-      unstable_enableSymlinks: false,
-    },
-    transformer: {
-      unstable_allowRequireContext: true,
-    },
-  };
-
-
+  resolver: {
+    unstable_enableSymlinks: false,
+  },
+  transformer: {
+    unstable_allowRequireContext: true,
+  },
+};
 module.exports = mergeConfig(getDefaultConfig(__dirname), config);

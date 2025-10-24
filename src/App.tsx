@@ -5,7 +5,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import AppNavigator from './navigation/AppNavigator';
 
-import AdchainSdk from './services/AdchainSdk';
+import AdchainSdk from '@1selfworld/adchain-sdk-react-native';
 
 // SDK 환경 설정
 const SDK_CONFIG = {

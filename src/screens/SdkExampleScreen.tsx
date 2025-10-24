@@ -14,8 +14,8 @@ import AdchainSdk, {
   addMissionCompletedListener,
   addMissionProgressedListener,
   addMissionRefreshedListener,
-} from '../services/AdchainSdk';
-import type {AdchainUser} from '../services/AdchainSdk';
+} from '@1selfworld/adchain-sdk-react-native';
+import type {AdchainUser} from '@1selfworld/adchain-sdk-react-native';
 
 // SDK 환경 설정
 const SDK_CONFIG = {

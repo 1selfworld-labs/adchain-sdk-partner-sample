@@ -22,9 +22,9 @@ apply plugin: "com.facebook.react.rootproject"
 
 allprojects {
     repositories {
+        maven { url 'https://releases.adjoe.io/maven' }
         google()
         mavenCentral()
         maven { url 'https://www.jitpack.io' }
-        maven { url 'https://releases.adjoe.io/maven' }
     }
 }
