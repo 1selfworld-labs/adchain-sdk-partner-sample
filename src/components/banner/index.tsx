@@ -1,5 +1,5 @@
 import {Image, StyleSheet, TouchableOpacity} from 'react-native';
-import AdchainSdk from '../../../../test-rn/my-app/src/index';
+import AdchainSdk from '../../services/adchain';
 import {BannerInfo} from '../../../../test-rn/my-app/src/interface/banner';
 interface BannerProps {
   bannerInfo: BannerInfo;
