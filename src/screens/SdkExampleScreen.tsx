@@ -13,8 +13,8 @@ import AdchainSdk, {
   addMissionCompletedListener,
   addMissionProgressedListener,
   addMissionRefreshedListener,
-} from '@1selfworld/adchain-sdk-react-native';
-import type {AdchainUser} from '@1selfworld/adchain-sdk-react-native';
+} from '../services/Adchain';
+import type {AdchainUser} from '../services/Adchain';
 
 const SdkExampleScreen = () => {
   // ⭐ 로컬 state로 SDK 상태 관리

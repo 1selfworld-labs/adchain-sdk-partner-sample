@@ -8,6 +8,11 @@ import {
   AdchainOfferwallView,
 } from '@1selfworld/adchain-sdk-react-native';
 
+import type { AdchainUser } from '@1selfworld/adchain-sdk-react-native';
+
+export type {
+  AdchainUser,
+};
 
 export {
   addQuizCompletedListener,
