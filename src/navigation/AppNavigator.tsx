@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { TouchableOpacity, Text, Alert, StyleSheet } from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
 import ListScreen from '../screens/ListScreen';
@@ -55,8 +55,6 @@ const MyPageIcon = ({color}: {color: string}) => (
 );
 
 const TabNavigator = () => {
-  const offerwallViewRef = useRef(null);
-
   return (
     <Tab.Navigator
       initialRouteName="Home"
