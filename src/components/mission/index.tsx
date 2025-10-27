@@ -1,19 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {
-  Alert,
   Animated,
-  Platform,
   StyleSheet,
-  Text,
-  ToastAndroid,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import AdchainSdk, {
   addMissionCompletedListener,
   addMissionProgressedListener,
   addMissionRefreshedListener,
-} from '../../../../test-rn/my-app/src/index';
+} from '../../services/Adchain';
 import {MissionItem} from '../../../../test-rn/my-app/src/interface/mission';
 import MissionModule from './MissionModule';
 import MissionSkeleton from './MissionSkeleton';
@@ -93,22 +88,6 @@ const Mission = () => {
     }
     loadMissionList();
   }, []);
-
-  // Toast 헬퍼 함수
-  const showToast = (message: string) => {
-    if (Platform.OS === 'android') {
-      ToastAndroid.show(message, ToastAndroid.SHORT);
-    } else {
-      // iOS는 Alert 사용 (자동으로 사라지는 타이머 추가)
-      const alertController = Alert.alert('', message, [], {cancelable: true});
-
-      // 2초 후 자동으로 닫기 (iOS는 프로그래밍적으로 Alert를 닫을 수 없으므로 참고용)
-      setTimeout(() => {
-        // iOS에서는 Alert를 프로그래밍적으로 닫을 수 없음
-        // 사용자가 탭하거나 2초 정도 후 자연스럽게 무시됨
-      }, 2000);
-    }
-  };
 
   useEffect(() => {
     // 미션 참여 이벤트 리스너 등록

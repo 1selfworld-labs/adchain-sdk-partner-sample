@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Animated, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import AdchainSdk, {addQuizCompletedListener} from '../../../../test-rn/my-app/src/index';
+import AdchainSdk, {addQuizCompletedListener} from '../../services/Adchain';
 import {BannerInfo} from '../../../../test-rn/my-app/src/interface/banner';
 import {CompletedQuizBanner, QuizItem} from '../../../../test-rn/my-app/src/interface/quiz';
 import Banner from '../banner';

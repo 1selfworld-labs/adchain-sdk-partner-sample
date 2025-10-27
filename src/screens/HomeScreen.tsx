@@ -14,7 +14,7 @@ import {
 import { CompositeNavigationProp } from '@react-navigation/native';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import AdchainSdk from '../services/adchain';
+import AdchainSdk from '../services/Adchain';
 
 type TabParamList = {
   Home: undefined;
