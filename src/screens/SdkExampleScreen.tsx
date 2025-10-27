@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   View,
   Alert,
-  Platform,
 } from 'react-native';
 import AdchainSdk, {
   addQuizCompletedListener,
@@ -17,22 +16,8 @@ import AdchainSdk, {
 } from '@1selfworld/adchain-sdk-react-native';
 import type {AdchainUser} from '@1selfworld/adchain-sdk-react-native';
 
-// SDK 환경 설정
-const SDK_CONFIG = {
-  android: {
-    APP_KEY: '100000001',
-    APP_SECRET: 'gjFs586lLuUweJRN',
-  },
-  ios: {
-    APP_KEY: '100000002',
-    APP_SECRET: '3ANgfF9Zfbm79oa6',
-  },
-};
-
 const SdkExampleScreen = () => {
   // ⭐ 로컬 state로 SDK 상태 관리
-  const [sdkReady, setSdkReady] = useState(false);
-  const [sdkError, setSdkError] = useState<string | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState<AdchainUser | null>(null);
 
@@ -58,70 +43,8 @@ const SdkExampleScreen = () => {
 
   const clearLogs = () => setLogs([]);
 
-  // // ⭐ SDK 초기화 (샘플 패턴 적용)
-  // useEffect(() => {
-  //   const initTimeout = setTimeout(() => {
-  //     initializeSDK();
-  //   }, 500); // ⭐ 500ms 대기 후 초기화
-
-  //   return () => clearTimeout(initTimeout); // ⭐ cleanup
-  // }, []);
-
-  const initializeSDK = async () => {
-    try {
-      const sdkConfig = Platform.select({
-        android: {
-          appKey: SDK_CONFIG.android.APP_KEY,
-          appSecret: SDK_CONFIG.android.APP_SECRET,
-          environment: 'PRODUCTION' as const,
-        },
-        ios: {
-          appKey: SDK_CONFIG.ios.APP_KEY,
-          appSecret: SDK_CONFIG.ios.APP_SECRET,
-          environment: 'PRODUCTION' as const,
-        },
-        default: {
-          appKey: 'test-app',
-          appSecret: 'test-secret',
-          environment: 'DEVELOPMENT' as const,
-        },
-      });
-
-      addLog('🔧 SDK 초기화 시작...');
-
-      // SDK 초기화
-      await AdchainSdk.initialize(sdkConfig);
-      addLog(`✅ SDK 초기화 완료 (${Platform.OS})`);
-
-      // ⭐ 샘플과 동일하게 1초 대기
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      // 로그인 상태 확인
-      const loggedIn = await AdchainSdk.isLoggedIn();
-      setIsLoggedIn(loggedIn);
-
-      if (loggedIn) {
-        const user = await AdchainSdk.getCurrentUser();
-        setCurrentUser(user);
-        addLog(`👤 로그인됨: ${user?.userId}`);
-      } else {
-        addLog('⚠️ 로그인 필요');
-      }
-
-      setSdkReady(true);
-    } catch (error) {
-      console.error('AdchainSDK initialization error:', error);
-      setSdkError((error as Error)?.message || 'SDK 초기화 실패');
-      addLog(`❌ SDK 초기화 실패: ${error}`);
-      // ⭐ 에러 발생해도 UI는 표시
-      setSdkReady(true);
-    }
-  };
-
   // ⭐ 이벤트 리스너 등록
   useEffect(() => {
-    if (!sdkReady) {return;}
-
     const quizSub = addQuizCompletedListener(event => {
       addLog(`✅ Quiz Completed: ${JSON.stringify(event)}`);
     });
@@ -144,7 +67,7 @@ const SdkExampleScreen = () => {
       missionProgressSub.remove();
       missionRefreshSub.remove();
     };
-  }, [sdkReady]);
+  }, []);
 
   // ===== 로그인/로그아웃 =====
 
@@ -401,13 +324,6 @@ const SdkExampleScreen = () => {
 
   return (
     <View style={styles.container}>
-      {/* 에러 배너 */}
-      {sdkError && (
-        <View style={styles.errorBanner}>
-          <Text style={styles.errorText}>⚠️ {sdkError}</Text>
-        </View>
-      )}
-
       {/* 전체 스크롤 영역 */}
       <ScrollView style={styles.mainScrollView} keyboardShouldPersistTaps="handled">
         {/* SDK 상태 표시 */}
