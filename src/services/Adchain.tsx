@@ -5,6 +5,7 @@ import {
   addMissionCompletedListener,
   addMissionProgressedListener,
   addMissionRefreshedListener,
+  AdchainOfferwallView,
 } from '@1selfworld/adchain-sdk-react-native';
 
 
@@ -13,6 +14,7 @@ export {
   addMissionCompletedListener,
   addMissionProgressedListener,
   addMissionRefreshedListener,
+  AdchainOfferwallView,
 };
 
 export default AdchainSdk;
